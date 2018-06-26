@@ -50,7 +50,8 @@ $page = "produto.php";
                   <thead>
                       <tr>
                           <th class="col-lg-1">#</th>
-                          <th class="col-lg-11" colspan="2"> 
+                          <th class="col-lg-1"></th>
+                          <th class="col-lg-10" colspan="2"> 
                               <div class="row">
                                 <span class="col-lg-2 pull-right"><a href="produto_cadastrar.php" class="btn btn-primary pull-right"> Adicionar</a></span>
                                 <span class="col-lg-1">&nbsp;&nbsp;</span>
@@ -87,11 +88,12 @@ $page = "produto.php";
                           )
                     $where_and ORDER BY PRODUTO.NOME, PRODUTO.PRODUTO_CONTROLE";
                     $result = $pdo->query($sql);
-                    $i=0;
+                    if($result){
                     while ($row = $result->fetch()) {
                 ?>
                 <tr>
                     <td><input type="checkbox" name="id"></td>
+                    <td><img src="http://placehold.it/60x60" alt=""></td>
                     <td><?php echo utf8_encode($row['NOME']); ?></td>
                     <td>
                         <div class="dropdown pull-right">
@@ -100,7 +102,7 @@ $page = "produto.php";
                             <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Imagem</a></li>
+                            <li><a href="./produto_iamgem.php?cod=<?php echo $row['PRODUTO_CONTROLE']; ?>"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Imagem</a></li>
                             <li><a href="<?php echo './produto_alterar.php?cod='.$row['PRODUTO_CONTROLE']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar</a></li>
                             <li><a href="./produto_action.php?controle=<?php echo $row['PRODUTO_CONTROLE']; ?>&action=excluir" onclick="if (confirm('Confirmar exclusão do item: \n\n <?php echo utf8_encode($row['NOME']); ?> \n' )) { window.location.href = this.href } return false;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir</a></li>
                           </ul>
@@ -113,18 +115,26 @@ $page = "produto.php";
                   </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="3">
+                        <td colspan="4">
                             <a href="<?php echo $row['PRODUTO_CONTROLE']; ?>" class="btn btn-danger"><span class="fa fa-fw fa-trash"></span> Excluir</a>
-                   
                             <span class="pull-right">Total de registros: <?php echo $total_registros; ?></span>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3">
+                        <td colspan="4">
                             <span class="pull-right"><?php paginacao(3, $p,$pags, $pesquisa); ?></span>
                         </td>
                     </tr>
                 </tfoot>
+                <?php
+                }else{
+                ?>
+                    <tr>
+                        <td colspan="4">Nenhum registro encontrado!</td>
+                    </tr>
+                <?php
+                }
+                ?>
             </table>
 
             </div>

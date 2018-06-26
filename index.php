@@ -48,7 +48,7 @@
                 <div class="row">
 
                     <?php 
-                    $sql  = "SELECT TOP 6 * FROM PRODUTO ORDER BY Rnd(-(100000*PRODUTO_CONTROLE)*Time())";
+                    $sql  = "SELECT TOP 6 * FROM PRODUTO WHERE STATUS = 1 ORDER BY Rnd(-(100000*PRODUTO_CONTROLE)*Time())";
                     $result = $pdo->query($sql);
                     while($row = $result->fetch()){
                     ?>

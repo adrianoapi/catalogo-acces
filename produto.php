@@ -36,6 +36,7 @@
                     </div>
                 </div>
                 <form method="POST" action="carrinho.php">
+                    <input type="hidden" name="action" value="adicionar">
                     <input type="hidden" name="controle" value="<?php echo $row['PRODUTO_CONTROLE']; ?>">
                     <input type="hidden" name="nome" value="<?php echo $row['NOME']; ?>">
                     <div class="col-lg-2"><input type="number" name="quantidade" value="1" class="form-control" required></div>
