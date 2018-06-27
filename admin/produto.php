@@ -89,11 +89,25 @@ $page = "produto.php";
                     $where_and ORDER BY PRODUTO.NOME, PRODUTO.PRODUTO_CONTROLE";
                     $result = $pdo->query($sql);
                     if($result){
+                        
                     while ($row = $result->fetch()) {
+                        
+                        $controle = $row['PRODUTO_CONTROLE'];
+                        $sql_img = "SELECT TOP 1 * FROM PRODUTOIMAGEM WHERE PRODUTO_CONTROLE = {$controle} AND STATUS = 1";
+                        
+                        if($pdo->query($sql_img)){
+                            
+                            $sql_qry = $pdo->query($sql_img);
+                            $img = $sql_qry->fetch();
+                            $img = $img['NOME_IMAGEM'];
+                            
+                        }else{
+                            $img = FALSE;
+                        }
                 ?>
                 <tr>
                     <td><input type="checkbox" name="id"></td>
-                    <td><img src="http://placehold.it/60x60" alt=""></td>
+                    <td><?php echo ($img) ? '<img src="../data/produtos/'.$img.'" width="60px">' : NULL; ?></td>
                     <td><?php echo utf8_encode($row['NOME']); ?></td>
                     <td>
                         <div class="dropdown pull-right">
@@ -102,7 +116,7 @@ $page = "produto.php";
                             <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="./produto_iamgem.php?cod=<?php echo $row['PRODUTO_CONTROLE']; ?>"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Imagem</a></li>
+                            <li><a href="./produto_imagem.php?cod=<?php echo $row['PRODUTO_CONTROLE']; ?>"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Imagem</a></li>
                             <li><a href="<?php echo './produto_alterar.php?cod='.$row['PRODUTO_CONTROLE']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar</a></li>
                             <li><a href="./produto_action.php?controle=<?php echo $row['PRODUTO_CONTROLE']; ?>&action=excluir" onclick="if (confirm('Confirmar exclusão do item: \n\n <?php echo utf8_encode($row['NOME']); ?> \n' )) { window.location.href = this.href } return false;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir</a></li>
                           </ul>
