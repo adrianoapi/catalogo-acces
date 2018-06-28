@@ -140,6 +140,14 @@
     <!-- /.container -->
     <?php require_once 'includes/fim.php';     ?>
     
+    <script>
+    $(document).redady(function(){
+        
+        $("#cep").on('mouseout',function(){console.log('oi');});
+        
+    });
+    </script>
+    
 </body>
 
 </html>

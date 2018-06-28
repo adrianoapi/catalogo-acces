@@ -15,7 +15,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="./cadastro.php"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Cadastroe-se</a>
+                        <a href="./cadastro.php"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Cadastre-se</a>
                     </li>
                     <li>
                         <a href="./carrinho.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>&nbsp;Carrinho</a>

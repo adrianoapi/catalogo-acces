@@ -38,6 +38,7 @@ if($_REQUEST != ""){
         $ofertas   = $_POST['oferta'];
         
         try {
+            
             if(!$rst = $pdo->exec("INSERT INTO PRODUTO(NOME, DESCRICAO_LOJA, STATUS) VALUES('{$nome}','{$descricao}', 1)")){
                    
                     throw new \Exception('===> Erro de SQL <===');
