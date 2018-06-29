@@ -23,6 +23,7 @@
         <div class="list-group">
             <a href="./"          class="list-group-item <?php echo $page == "dashboard" ? 'active' : NULL; ?>">Dashboard</a>
             <a href="produto.php" class="list-group-item <?php echo $page == "produto.php"  ? 'active' : NULL; ?>">Produtos</a>
+            <a href="grupo.php"   class="list-group-item <?php echo $page == "grupo.php"  ? 'active' : NULL; ?>">Grupos</a>
             <a href="#"           class="list-group-item">Usuários</a>
         </div>
     </div>

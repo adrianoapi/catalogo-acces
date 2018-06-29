@@ -53,7 +53,7 @@ $page = "produto.php";
                           <th class="col-lg-1"></th>
                           <th class="col-lg-10" colspan="2"> 
                               <div class="row">
-                                <span class="col-lg-2 pull-right"><a href="produto_cadastrar.php" class="btn btn-primary pull-right"> Adicionar</a></span>
+                                <span class="col-lg-2 pull-right"><a href="produto_cadastrar.php" class="btn btn-success pull-right"> Adicionar</a></span>
                                 <span class="col-lg-1">&nbsp;&nbsp;</span>
                                 <span class="col-lg-9 pull-right"><a href="produto_excluido.php" class="btn btn-default pull-right"> Excluídos</a></span>
                               </div>
@@ -93,8 +93,9 @@ $page = "produto.php";
                     while ($row = $result->fetch()) {
                         
                         $controle = $row['PRODUTO_CONTROLE'];
-                        $sql_img = "SELECT TOP 1 * FROM PRODUTOIMAGEM WHERE PRODUTO_CONTROLE = {$controle} AND STATUS = 1";
                         
+                        # Get imagem
+                        $sql_img = "SELECT TOP 1 * FROM PRODUTOIMAGEM WHERE PRODUTO_CONTROLE = {$controle} AND STATUS = 1";
                         if($pdo->query($sql_img)){
                             
                             $sql_qry = $pdo->query($sql_img);
@@ -104,11 +105,27 @@ $page = "produto.php";
                         }else{
                             $img = FALSE;
                         }
+                        
+                        # Get oferta
+                        $sql_pre = "SELECT COUNT(*) AS total FROM PRODUTOPRECO WHERE PRODUTO_CONTROLE = {$controle}";
+                        if($pdo->query($sql_pre)){
+                            
+                            $qry_pre = $pdo->query($sql_pre);
+                            $pre     = $qry_pre->fetch();
+                            $pre     = $pre['total'];
+                            
+                        }else{
+                            $pre = 0;
+                        }
                 ?>
                 <tr>
                     <td><input type="checkbox" name="id"></td>
-                    <td><?php echo ($img) ? '<img src="../data/produtos/'.$img.'" width="60px">' : NULL; ?></td>
-                    <td><?php echo utf8_encode($row['NOME']); ?></td>
+                    <td><?php echo ($img) ? '<a href="./produto_alterar.php?cod='.$row['PRODUTO_CONTROLE'].'"><img src="../data/produtos/'.$img.'" width="60px"></a>' : NULL; ?></td>
+                    <td>
+                        <?php echo utf8_encode($row['NOME']); ?>
+                        <br>
+                        <?php echo $pre > 0 ? "ofertas: {$pre}" : "oferta: {$pre}"; ?>
+                    </td>
                     <td>
                         <div class="dropdown pull-right">
                           <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

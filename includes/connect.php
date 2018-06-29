@@ -57,4 +57,22 @@ function paginacao($max_links, $p, $pags, $pesquisa = NULL){
     echo "</ul>";
 
 }
+
+
+/**
+ * Remove letras acentuadas
+ * @param type $str
+ * @return type
+ */
+function trataString($str)
+{
+    $str = preg_replace('/["]/ui', "&quot;", $str);
+    $str = preg_replace('/[“]/ui', "&quot;", $str);
+    $str = preg_replace('/[”]/ui', "&quot;", $str);
+    $str = preg_replace("/[']/ui", "&apos;", $str);
+    $str = preg_replace('/[`]/ui', "&apos;", $str);
+    $str = preg_replace('/[´]/ui', "&apos;", $str);
+    return strtolower(addslashes($str));
+}
+
 ?>

@@ -16,7 +16,15 @@ if(count($_POST) > 0){
         if($_POST['action'] == "adicionar"){
             
             if(!isset($_POST['controle']) || !isset($_POST['oferta']) || $_POST['quantidade'] < 1){
-                die("Produto, oferta e/ou quantidade indefinida! <a href=\"./produto_lista.php\"><br>Clique aqui para voltar!</>");
+                ?>
+                <div class="col-lg-4 col-md-offset-4">
+                    <div class="panel panel-danger">
+                       <div class="panel-heading">ERRO</div>
+                       <div class="panel-body"> <?php echo "<h4>Produto, oferta e/ou quantidade indefinida!</h4><a href=\"./produto_lista.php\" class=\"btn btn-info\">Clique aqui para voltar!</a>"; ?> </div>
+                    </div>
+                </div>
+                <?php
+                die();
             }
             
             # Verifica se selecionou a oferta correspondente ao produto
@@ -158,7 +166,7 @@ if(isset($_GET['action'])){
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td>Total: <?php echo number_format($soma, 2, ',','.'); ?></td>
+                                    <td><h4>Total: <?php echo number_format($soma, 2, ',','.'); ?></h4></td>
                                     <td colspan="5">
                                         <button type="submit" class="btn btn-success pull-right">Finalizar</button>
                                         <button type="submit" class="btn btn-default pull-right" style="margin-right: 5px;">Atualizar</button>
@@ -168,8 +176,8 @@ if(isset($_GET['action'])){
                         </table>
                     </form>
 
-                </div>
-            </div>
+                </div<!--end/panel-body-->
+            </div><!--end/panel-->
                 
         </div>
 

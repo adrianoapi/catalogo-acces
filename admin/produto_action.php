@@ -33,8 +33,8 @@ if($_REQUEST != ""){
     
     if($_REQUEST['action'] == "cadastrar"){
         
-        $nome      = utf8_decode($_POST['nome'     ]);
-        $descricao = utf8_decode($_POST['descricao']);
+        $nome      = utf8_decode(trataString($_POST['nome'     ]));
+        $descricao = utf8_decode(trataString($_POST['descricao']));
         $ofertas   = $_POST['oferta'];
         
         try {
@@ -67,8 +67,8 @@ if($_REQUEST != ""){
     if($_REQUEST['action'] == "alterar"){
                         
         $controle  = $_POST['controle' ];
-        $nome      = utf8_decode($_POST['nome'     ]);
-        $descricao = utf8_decode($_POST['descricao']);
+        $nome      = utf8_decode(trataString($_POST['nome'     ]));
+        $descricao = utf8_decode(trataString($_POST['descricao']));
         $ofertas   = $_POST['oferta'];
         
         try {
@@ -149,19 +149,19 @@ if($_REQUEST != ""){
         
         if ( isset( $_FILES[ 'arquivo' ][ 'name' ] ) && $_FILES[ 'arquivo' ][ 'error' ] == 0 ) {
 
-        $arquivo_tmp = $_FILES[ 'arquivo' ][ 'tmp_name' ];
-        $nome        = $_FILES[ 'arquivo' ][ 'name' ];
+        $arquivo_tmp = $_FILES['arquivo'  ][ 'tmp_name'];
+        $nome        = $_FILES['arquivo'  ][ 'name'    ];
         $controle    = $_POST ['controle' ];
 
-        $extensao = pathinfo ( $nome, PATHINFO_EXTENSION );
-        $extensao = strtolower ( $extensao );
+        $extensao = pathinfo ($nome, PATHINFO_EXTENSION);
+        $extensao = strtolower ($extensao);
 
-        if ( strstr ( '.jpg;.jpeg;.gif;.png', $extensao ) ) {
+        if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
 
             $name    = uniqid(time()) . '.' . $extensao;
             $destino = '../data/produtos/'  . $name;
 
-            if (@move_uploaded_file( $arquivo_tmp, $destino )) {
+            if (@move_uploaded_file($arquivo_tmp, $destino)) {
                 
                 # Inativa todas as imagens do produto
                 $pdo->exec("UPDATE PRODUTOIMAGEM SET STATUS = 0 WHERE PRODUTO_CONTROLE = {$controle}");
