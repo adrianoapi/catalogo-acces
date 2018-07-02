@@ -43,12 +43,49 @@ $page = "produto.php";
                               $rst_pp = $pdo->query($sql_pp);
                               
                               # Select grupo
-                              $sql_grp = " SELECT s.NOME AS subgrupo_nome, g.NOME AS grupo_nome FROM SUBGRUPO AS s " .
-                                         " INNER JOIN GRUPO AS g ON (g.GRUPO_CONTROLE = s.GRUPO_CONTROLE AND g.STATUS = 1)".
-                                         " WHERE s.STATUS = 1 " .
-                                         " ORDER BY g.NOME, s.NOME ASC";
-                              $rst_grp = $pdo->query($sql_grp);
-
+                              $select_grupo = array();
+                              $sql_grp = "SELECT * FROM GRUPO WHERE STATUS = 1";
+                              $qry_grp = $pdo->query($sql_grp);
+                              while ($row_grp = $qry_grp->fetch()){
+                                  array_push($select_grupo, $row_grp);
+                              }
+                              
+                              # Select grupo
+                              $select_grupo = array();
+                              $sql_grp = "SELECT * FROM GRUPO WHERE STATUS = 1";
+                              $qry_grp = $pdo->query($sql_grp);
+                              while ($row_grp = $qry_grp->fetch()){
+                                  array_push($select_grupo, $row_grp);
+                              }
+                              
+                              # Select subgrupo
+                              $select_subgrupo = array();
+                              $sql_sub = "SELECT * FROM SUBGRUPO WHERE STATUS = 1";
+                              $qry_sub = $pdo->query($sql_sub);
+                              while ($row_sub = $qry_sub->fetch()){
+                                  array_push($select_subgrupo, $row_sub);
+                              }
+                              #debug($select_subgrupo,1);
+                              
+                              # Seleciona relação dos grupos e subgrupos
+                              $sql_pgrp = " SELECT pg.* FROM (PRODUTOGRUPO AS pg " .
+                                         " INNER JOIN GRUPO    AS g ON (g.GRUPO_CONTROLE    = pg.GRUPO_CONTROLE    AND g.STATUS = 1)) ".
+                                         " INNER JOIN SUBGRUPO AS s ON (s.SUBGRUPO_CONTROLE = pg.SUBGRUPO_CONTROLE AND s.STATUS = 1)  ".
+                                         " WHERE pg.STATUS = 1 AND pg.PRODUTO_CONTROLE = $controle ";
+                             
+                              $array_grp = array();
+                              $array_sub = array();
+                              
+                              if($pdo->query($sql_pgrp)){
+                                  
+                                  $rst_grp = $pdo->query($sql_pgrp);
+                                  while($line = $rst_grp->fetch()){
+                                      array_push($array_grp, $line['GRUPO_CONTROLE'   ]);
+                                      array_push($array_sub, $line['SUBGRUPO_CONTROLE']);
+                                  }
+                                  
+                              }
+                              
                             }else{
 
                                 # Se o parâmetro informado não for válido
@@ -81,28 +118,61 @@ $page = "produto.php";
                           </div>
 
                           <div id="group_fileds">
-                            <div class="form-group">
-                              <div class="form-row">
-                                <div class="col-md-11">
-                                  <label for="descricao">GRUPO</label>
-                                  <select name="" class="form-control">
-                                     <option value="">Selecionar grupo</option>
-                                  <?php 
-                                  $count = 0;
-                                  while ($row = $rst_grp->fetch()){
-                                  ?>
-                                     <option value=""><?php echo $row['grupo_nome'] . ' \ ' . $row['subgrupo_nome']; ?></option>
-                                  <?php 
-                                  }
-                                  ?>
-                                  </select>
-                                </div>
-                                <div class="col-md-1">
-                                    <label for="descricao"><br></label>
-                                    <button id="<?php echo $count; ?>" onclick="del_fields(this.id);" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
-                                </div>
+                             <?php
+                          $array_sub_usado = array();
+                          $c_grp = count($array_grp);
+                          if($c_grp > 0){
+                            for($i = 0; $i < $c_grp; $i++){
+//                              debug($array_sub,1);
+                          ?>
+                              <div class="form-group" id="elemento-<?php echo $i; ?>">
+                                  <div class="form-row">
+                                      <div class="col-md-5">
+                                          <label for="descricao">GRUPO</label>
+                                          <select name="grupo" class="form-control">
+                                              <option>Selecione grupo</option>
+                                              <?php foreach($select_grupo as $value){
+                                                  $selected = $value['GRUPO_CONTROLE'] == $array_grp[$i] ? "selected" : NULL;
+                                                echo '<option '.$selected.'>'.$value['NOME'].'</option>';
+                                              } ?>
+                                          </select>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label for="descricao">SUBGRUPO</label>
+                                          <select name="grupo" class="form-control">
+                                              <option>Selecione grupo</option>
+                                              <?php
+                                              $selected = NULL;
+                                              $j=0;
+                                              foreach($select_subgrupo as $value){
+                                                  
+                                                  # Se pertence ao grupo atual
+                                                  if( $value['GRUPO_CONTROLE'] == $array_grp[$i]){
+                                                      
+                                                      if(in_array($value['SUBGRUPO_CONTROLE'], $array_sub) && !in_array($value['SUBGRUPO_CONTROLE'], $array_sub_usado) && $selected == NULL){
+                                                          $array_sub_usado[$value['SUBGRUPO_CONTROLE']] = $value['SUBGRUPO_CONTROLE'];
+                                                          $selected = "selected";
+                                                          echo '<option value="'.$value['SUBGRUPO_CONTROLE'].'" '.$selected.'>'.$value['NOME'].'</option>';
+                                                      }
+                                                      
+                                                    echo '<option value="'.$value['SUBGRUPO_CONTROLE'].'" >'.$value['NOME'].'</option>';
+                                                          
+                                                  }
+                                                  
+                                              } 
+                                              ?>
+                                          </select>
+                                      </div>
+                                      <div class="col-md-1">
+                                          <label for="descricao"><br></label>
+                                          <button id="<?php echo $i; ?>" onclick="del_fields(this.id);" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
+                                      </div>
+                                  </div>
                               </div>
-                            </div>
+                          <?php
+                            }
+                          }
+                          ?>
                           </div>
                           
                           <div class="form-group">
@@ -113,7 +183,7 @@ $page = "produto.php";
                               </div>
                             </div>
                           </div>
-
+                          
                           <div id="room_fileds">
                           <?php 
                           $count = 0;
