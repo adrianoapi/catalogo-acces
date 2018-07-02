@@ -47,7 +47,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-8">
-                                    <h3 class="card-title"><?php echo utf8_encode($row['NOME']); ?></h3>
+                                    <h3 class="card-title"><?php echo utf8_encode($row['NOME']); ?></h3>                                    
                                     <p class="card-text"><?php echo utf8_encode($row['DESCRICAO_LOJA']); ?></p>
                                     <?php
                                     $_SESSION['oferta'] = array();

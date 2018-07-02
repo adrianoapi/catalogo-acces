@@ -52,9 +52,9 @@
                             $total_registros = $total_registros['total'];
                             $pags = ceil($total_registros / $qnt);
 
-                            $p = isset($_GET["p"]) ? $_GET["p"] : 1;
+                            $p      = isset($_GET["p"]) ? $_GET["p"] : 1;
                             $inicio = ($p * $qnt) - $qnt;
-                            $qnt = ($total_registros - $inicio) < $qnt ? $total_registros - $inicio : $qnt;
+                            $qnt    = ($total_registros - $inicio) < $qnt ? $total_registros - $inicio : $qnt;
 
                             $sql = "SELECT PRODUTO.*
                             FROM PRODUTO
@@ -75,13 +75,13 @@
                             while ($row = $result->fetch()) {
 
                                 $controle = $row['PRODUTO_CONTROLE'];
-                                $sql_img = "SELECT TOP 1 * FROM PRODUTOIMAGEM WHERE PRODUTO_CONTROLE = {$controle} AND STATUS = 1";
+                                $sql_img  = "SELECT TOP 1 * FROM PRODUTOIMAGEM WHERE PRODUTO_CONTROLE = {$controle} AND STATUS = 1";
 
                                 if($pdo->query($sql_img)){
 
                                     $sql_qry = $pdo->query($sql_img);
-                                    $img = $sql_qry->fetch();
-                                    $img = $img['NOME_IMAGEM'];
+                                    $img     = $sql_qry->fetch();
+                                    $img     = $img['NOME_IMAGEM'];
 
                                 }else{
                                     $img = FALSE;
@@ -102,7 +102,7 @@
                                     echo "<strong>".utf8_encode($row['NOME'])."</strong>"; 
                                     echo "<p style=\"text-align: justify;\">".utf8_encode($row['DESCRICAO_LOJA'])."</p>"; 
                                 ?>
-                                <?php echo isset($preco['PRECO']) ? '<p>R$ '.number_format($preco['PRECO'], 2, ',', '.').'</p>' : ''; ?>
+                                <?php echo isset($preco['PRECO']) ? '<h4>R$ '.number_format($preco['PRECO'], 2, ',', '.').'</h4>' : ''; ?>
                             </td>
                             <td>
                                 <a href="./produto.php?cod=<?php echo $row['PRODUTO_CONTROLE']; ?>" class="btn btn-default pull-right">Detalhes</a>
@@ -139,15 +139,7 @@
     
     <!-- /.container -->
     <?php require_once 'includes/fim.php';     ?>
-    
-    <script>
-    $(document).redady(function(){
         
-        $("#cep").on('mouseout',function(){console.log('oi');});
-        
-    });
-    </script>
-    
 </body>
 
 </html>

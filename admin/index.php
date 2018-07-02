@@ -1,9 +1,18 @@
 <?php require_once '../includes/connect.php'; ?>
 <?php require_once 'includes/topo.php';   
 
-$sql_prod  = "SELECT COUNT(*) FROM PRODUTO WHERE STATUS = 1";
+$sql_prod = "SELECT COUNT(*) FROM PRODUTO  WHERE STATUS = 1";
 $rst_prod = $pdo->query($sql_prod);
 $row_prod = $rst_prod->fetch();
+
+$sql_grup = "SELECT COUNT(*) FROM GRUPO    WHERE STATUS = 1";
+$rst_grup = $pdo->query($sql_grup);
+$row_grup = $rst_grup->fetch();
+
+$sql_sub  = "SELECT COUNT(*) FROM SUBGRUPO WHERE STATUS = 1";
+$rst_sub  = $pdo->query($sql_sub);
+$row_sub  = $rst_sub->fetch();
+
 ?>
 
 <body>
@@ -58,9 +67,9 @@ $row_prod = $rst_prod->fetch();
 
                         <div class="panel panel-default">
                            <div class="panel-heading">
-                              <h3 class="panel-title">Catgorias</h3>
+                              <h3 class="panel-title">Grupos & Subgrupos</h3>
                            </div>
-                           <div class="panel-body"> Registros: X </div>
+                           <div class="panel-body"> Registros: <?php echo $row_grup[0] + $row_sub[0]; ?> </div>
                         </div>
 
                     </div>

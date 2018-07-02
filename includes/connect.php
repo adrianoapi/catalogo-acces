@@ -72,7 +72,16 @@ function trataString($str)
     $str = preg_replace("/[']/ui", "&apos;", $str);
     $str = preg_replace('/[`]/ui', "&apos;", $str);
     $str = preg_replace('/[´]/ui', "&apos;", $str);
-    return strtolower(addslashes($str));
+    return addslashes($str);
+}
+
+function trataStringJS($str)
+{
+    $str = str_replace('\'', '', $str);
+    $str = str_replace("'",  "", $str);
+    $str = str_replace("&quot;", "", $str);
+    $str = str_replace("&apos;", "", $str);
+    return $str;
 }
 
 ?>
