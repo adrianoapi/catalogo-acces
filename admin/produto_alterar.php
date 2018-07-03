@@ -80,7 +80,7 @@ $page = "produto.php";
                                   
                                   $rst_grp = $pdo->query($sql_pgrp);
                                   while($line = $rst_grp->fetch()){
-                                      array_push($array_grp, $line['GRUPO_CONTROLE'   ]);
+                                      array_push($array_grp, array('PRODUTOGRUPO_CONTROLE' => $line['PRODUTOGRUPO_CONTROLE'],'GRUPO_CONTROLE' => $line['GRUPO_CONTROLE']));
                                       array_push($array_sub, $line['SUBGRUPO_CONTROLE']);
                                   }
                                   
@@ -123,23 +123,23 @@ $page = "produto.php";
                           $c_grp = count($array_grp);
                           if($c_grp > 0){
                             for($i = 0; $i < $c_grp; $i++){
-//                              debug($array_sub,1);
+                                #debug($array_grp,1);
                           ?>
-                              <div class="form-group" id="elemento-<?php echo $i; ?>">
+                              <div class="form-group" id="elemento-group-<?php echo $i; ?>">
                                   <div class="form-row">
                                       <div class="col-md-5">
                                           <label for="descricao">GRUPO</label>
-                                          <select name="grupo" class="form-control">
+                                          <select name="grupo[]" class="form-control">
                                               <option>Selecione grupo</option>
                                               <?php foreach($select_grupo as $value){
-                                                  $selected = $value['GRUPO_CONTROLE'] == $array_grp[$i] ? "selected" : NULL;
-                                                echo '<option '.$selected.'>'.$value['NOME'].'</option>';
+                                                  $selected = $value['GRUPO_CONTROLE'] == $array_grp[$i]['GRUPO_CONTROLE'] ? "selected" : NULL;
+                                                  echo '<option value="'.$array_grp[$i]['PRODUTOGRUPO_CONTROLE'].'|'.$value['GRUPO_CONTROLE'].'" '.$selected.'>'.$value['NOME'].'</option>';
                                               } ?>
                                           </select>
                                       </div>
                                       <div class="col-md-6">
                                           <label for="descricao">SUBGRUPO</label>
-                                          <select name="grupo" class="form-control">
+                                          <select name="subgrupo[]" id="select-subgroupo-<?php echo $i; ?>" class="form-control">
                                               <option>Selecione grupo</option>
                                               <?php
                                               $selected = NULL;
@@ -147,15 +147,16 @@ $page = "produto.php";
                                               foreach($select_subgrupo as $value){
                                                   
                                                   # Se pertence ao grupo atual
-                                                  if( $value['GRUPO_CONTROLE'] == $array_grp[$i]){
+                                                  if( $value['GRUPO_CONTROLE'] == $array_grp[$i]['GRUPO_CONTROLE']){
                                                       
                                                       if(in_array($value['SUBGRUPO_CONTROLE'], $array_sub) && !in_array($value['SUBGRUPO_CONTROLE'], $array_sub_usado) && $selected == NULL){
                                                           $array_sub_usado[$value['SUBGRUPO_CONTROLE']] = $value['SUBGRUPO_CONTROLE'];
                                                           $selected = "selected";
-                                                          echo '<option value="'.$value['SUBGRUPO_CONTROLE'].'" '.$selected.'>'.$value['NOME'].'</option>';
+                                                          echo '<option value="'.$array_grp[$i]['PRODUTOGRUPO_CONTROLE'].'|'.$value['SUBGRUPO_CONTROLE'].'" '.$selected.'>'.$value['NOME'].'</option>';
+                                                      }else{
+                                                          echo '<option value="'.$array_grp[$i]['PRODUTOGRUPO_CONTROLE'].'|'.$value['SUBGRUPO_CONTROLE'].'" >'.$value['NOME'].'</option>';
                                                       }
                                                       
-                                                    echo '<option value="'.$value['SUBGRUPO_CONTROLE'].'" >'.$value['NOME'].'</option>';
                                                           
                                                   }
                                                   
@@ -165,7 +166,7 @@ $page = "produto.php";
                                       </div>
                                       <div class="col-md-1">
                                           <label for="descricao"><br></label>
-                                          <button id="<?php echo $i; ?>" onclick="del_fields(this.id);" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
+                                          <button id="<?php echo $i; ?>" onclick="del_groups(this.id);" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
                                       </div>
                                   </div>
                               </div>
@@ -173,6 +174,13 @@ $page = "produto.php";
                             }
                           }
                           ?>
+                          </div>
+                          <div class="form-group">
+                            <div class="form-row">
+                              <div class="col-md-4">
+                                <a class="btn btn-default" href="javascript:void(0)" onclick="add_groups();"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                              </div>
+                            </div>
                           </div>
                           
                           <div class="form-group">
@@ -243,6 +251,60 @@ $page = "produto.php";
     <!-- /.container -->
     <?php require_once 'includes/fim.php';     ?>
     <script>
+        
+        // Gera o arrayJS de grupos
+        var array_grupo = [];
+        <?php
+            $k = 0;
+            $string = NULL;
+            foreach($select_grupo as $value):
+                echo 'array_grupo['.$k.'] = {controle: '.$value['GRUPO_CONTROLE'].',nome: \''.utf8_encode(trataStringJS($value['NOME'])).'\'};';
+                ++$k;
+            endforeach;
+        ?>
+            
+            // Gera options para o select de groupos
+            var option_grupo = '';
+            var itarator     = <?php echo $c_grp; ?>;
+            for(var i = 0; i < array_grupo.length; i++){
+                option_grupo += '<option value="'+itarator+'|' + array_grupo[i]['controle'] + '">' + array_grupo[i]['nome'] + '</option>';
+                itarator++;
+            }
+        
+        var group = <?php echo $c_grp; ?>;
+        function add_groups() {
+            group++;
+            var objTo = document.getElementById('group_fileds')
+            var divtest = document.createElement("div");
+            divtest.setAttribute("class", "form-group");
+            divtest.setAttribute("id", "elemento-group-" + group);
+            divtest.innerHTML = '<div class="form-row">' +
+                    '    <div class="col-md-5">'+
+                    '      <label for="descricao">GRUPO</label>'+
+                    '      <select name="grupo[]" class="form-control">'+
+                    '        <option>Selecione grupo</option>'+
+                    '        '+ option_grupo +
+                    '        </select>'+
+                    '    </div>' +
+                    '    <div class="col-md-6">'+
+                    '      <label for="descricao">SUBGRUPO</label>'+
+                    '      <select name="subgrupo[]" id="select-subgroupo-' + group + '" class="form-control">'+
+                    '        <option>Selecione subgrupo</option>'+
+                    '        </select>'+
+                    '    </div>' +
+                    '    <div class="col-md-1">' +
+                    '        <label for="descricao"><br></label>' +
+                    '        <button id="' + group + '" onclick="del_groups(this.id);" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>' +
+                    '    </div>' +
+                '</div>';
+            objTo.appendChild(divtest)
+        }
+        
+        function del_groups(id) {
+            var elem = document.getElementById('elemento-group-' + id);
+            return elem.parentNode.removeChild(elem);
+        }
+        
         var room = <?php echo $count; ?>;
         function add_fields() {
             room++;

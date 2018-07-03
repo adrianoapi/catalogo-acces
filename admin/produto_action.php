@@ -11,7 +11,8 @@ require_once '../includes/connect.php';
  * @param type $controle
  * @param type $data
  */
-function alterar_produto_preco($pdo, $controle, $data = array()){
+function alterar_produto_preco($pdo, $controle, $data = array())
+{
 
     # Inativa todas as ofertas do produto
     $pdo->exec("UPDATE PRODUTOPRECO SET STATUS = 0 WHERE PRODUTO_CONTROLE = {$controle}");
@@ -23,6 +24,27 @@ function alterar_produto_preco($pdo, $controle, $data = array()){
                " STATUS = 1".
                " WHERE PRODUTOPRECO_CONTROLE = {$key} AND PRODUTO_CONTROLE = {$controle}")){
                    # Insere uma nova oferta
+                   $pdo->exec("INSERT INTO PRODUTOPRECO(PRODUTO_CONTROLE, PRECO, STATUS) VALUES({$controle}, '{$value['preco']}', 1)");
+               }
+    endforeach;
+    
+}
+
+function alterar_produto_grupo($pdo, $controle, $data = array())
+{
+    
+    # Inativa todas as ofertas do produto
+    #$pdo->exec("UPDATE PRODUTOGRUPO SET STATUS = 0 WHERE PRODUTO_CONTROLE = {$controle}");
+    
+    foreach ($data as $key => $value):
+        # Atualiza a oferta passada no formulário
+        if(!$pdo->exec("UPDATE PRODUTOGRUPO SET ".
+               " GRUPO_CONTROLE     = '{$value['grupo']}',".
+               " SUBGRUPO_CONTROLE  = '{$value['subgrupo']}',".
+               " STATUS = 1".
+               " WHERE PRODUTOGRUPO_CONTROLE = {$key} AND PRODUTO_CONTROLE = {$controle}")){
+                   # Insere uma nova relação de produto grupo
+                   die('não fez o update');
                    $pdo->exec("INSERT INTO PRODUTOPRECO(PRODUTO_CONTROLE, PRECO, STATUS) VALUES({$controle}, '{$value['preco']}', 1)");
                }
     endforeach;
@@ -65,11 +87,29 @@ if($_REQUEST != ""){
     }
     
     if($_REQUEST['action'] == "alterar"){
-                        
+        #debug($_POST,1);
         $controle  = $_POST['controle' ];
         $nome      = utf8_decode(trataString($_POST['nome'     ]));
         $descricao = utf8_decode(trataString($_POST['descricao']));
-        $ofertas   = $_POST['oferta'];
+        $ofertas   = isset($_POST['oferta'  ]) ? $_POST['oferta'  ] : NULL;
+        #$grupo     = isset($_POST['grupo'   ]) ? $_POST['grupo'   ] : NULL;
+        #$subgrupo  = isset($_POST['subgrupo']) ? $_POST['subgrupo'] : NULL;
+        
+        $grupo_controle = array();
+        # Define o grupo no array $grupo_controle
+        if(isset($_POST['grupo'])){
+            foreach ($_POST['grupo'] as $value):
+                $arr = explode("|", $value);
+                $grupo_controle[$arr[0]]['grupo'] = $arr[1];
+            endforeach;
+        }
+        # Define o subgrupo no array $grupo_controle
+        if(isset($_POST['subgrupo'])){
+            foreach ($_POST['subgrupo'] as $value):
+                $arr = explode("|", $value);
+                $grupo_controle[$arr[0]]['subgrupo'] = $arr[1];
+            endforeach;
+        }
         
         try {
             if(!$pdo->exec("UPDATE PRODUTO SET ".
@@ -81,7 +121,8 @@ if($_REQUEST != ""){
                     
                }
                
-               alterar_produto_preco($pdo, $controle, $ofertas);
+               #alterar_produto_preco($pdo, $controle, $ofertas);
+               alterar_produto_grupo($pdo, $controle, $grupo_controle);
                
                $_SESSION['confirm'] = "Alterado";
                header("Location: produto.php");
