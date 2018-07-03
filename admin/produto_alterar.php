@@ -314,7 +314,7 @@ $page = "produto.php";
             divtest.innerHTML = '<div class="form-row">' +
                     '    <div class="col-md-5">'+
                     '      <label for="descricao">GRUPO</label>'+
-                    '      <select name="grupo[]" class="form-control">'+
+                    '      <select name="grupo[]" id="select-groupo-' + group + '" class="form-control" onchange="add_option_group(this.id)">'+
                     '        <option>Selecione grupo</option>'+
                     '        '+ option_grupo +
                     '        </select>'+

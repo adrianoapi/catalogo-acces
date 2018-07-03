@@ -34,18 +34,29 @@ function alterar_produto_grupo($pdo, $controle, $data = array())
 {
     
     # Inativa todas as ofertas do produto
-    #$pdo->exec("UPDATE PRODUTOGRUPO SET STATUS = 0 WHERE PRODUTO_CONTROLE = {$controle}");
+    $pdo->exec("UPDATE PRODUTOGRUPO SET STATUS = 0 WHERE PRODUTO_CONTROLE = {$controle}");
     
     foreach ($data as $key => $value):
         # Atualiza a oferta passada no formulário
         if(!$pdo->exec("UPDATE PRODUTOGRUPO SET ".
-               " GRUPO_CONTROLE     = '{$value['grupo']}',".
-               " SUBGRUPO_CONTROLE  = '{$value['subgrupo']}',".
+               " GRUPO_CONTROLE     = {$value['grupo']},".
+               " SUBGRUPO_CONTROLE  = {$value['subgrupo']},".
                " STATUS = 1".
                " WHERE PRODUTOGRUPO_CONTROLE = {$key} AND PRODUTO_CONTROLE = {$controle}")){
-                   # Insere uma nova relação de produto grupo
-                   die('não fez o update');
-                   $pdo->exec("INSERT INTO PRODUTOPRECO(PRODUTO_CONTROLE, PRECO, STATUS) VALUES({$controle}, '{$value['preco']}', 1)");
+                   # Verifica se já existe a relação de curso e grupo registrada
+                   $query = " SELECT * FROM PRODUTOGRUPO WHERE ".
+                            " PRODUTO_CONTROLE   = {$controle} AND         " .
+                            " GRUPO_CONTROLE     = {$value['grupo']} AND   " .
+                            " SUBGRUPO_CONTROLE  = {$value['subgrupo']}    ";
+                        $rst = $pdo->query($query);
+                   if($rst->fetch()){
+                        $row = $rst->fetch();
+                        # Torna visível
+                        $pdo->exec("UPDATE PRODUTOGRUPO SET STATUS = 1 WHERE PRODUTOGRUPO_CONTROLE = {$row['PRODUTOGRUPO_CONTROLE']}");
+                   }else{
+                        # Insere uma nova relação de produto grupo
+                        $pdo->exec("INSERT INTO PRODUTOGRUPO(PRODUTO_CONTROLE, GRUPO_CONTROLE, SUBGRUPO_CONTROLE, STATUS) VALUES({$controle}, {$value['grupo']}, {$value['subgrupo']}, 1)");
+                   }
                }
     endforeach;
     
@@ -110,7 +121,6 @@ if($_REQUEST != ""){
                 $grupo_controle[$arr[0]]['subgrupo'] = $arr[1];
             endforeach;
         }
-        
         try {
             if(!$pdo->exec("UPDATE PRODUTO SET ".
                " DESCRICAO_LOJA         = '{$descricao}',". 
