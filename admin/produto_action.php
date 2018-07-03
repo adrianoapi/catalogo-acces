@@ -48,11 +48,16 @@ function alterar_produto_grupo($pdo, $controle, $data = array())
                             " PRODUTO_CONTROLE   = {$controle} AND         " .
                             " GRUPO_CONTROLE     = {$value['grupo']} AND   " .
                             " SUBGRUPO_CONTROLE  = {$value['subgrupo']}    ";
+                   if($pdo->query($query)){
                         $rst = $pdo->query($query);
-                   if($rst->fetch()){
                         $row = $rst->fetch();
-                        # Torna visível
-                        $pdo->exec("UPDATE PRODUTOGRUPO SET STATUS = 1 WHERE PRODUTOGRUPO_CONTROLE = {$row['PRODUTOGRUPO_CONTROLE']}");
+                        if(is_array($row)){
+                            # Torna visível
+                            $pdo->exec("UPDATE PRODUTOGRUPO SET STATUS = 1 WHERE PRODUTOGRUPO_CONTROLE = {$row['PRODUTOGRUPO_CONTROLE']}");
+                        }else{
+                            # Insere uma nova relação de produto grupo
+                            $pdo->exec("INSERT INTO PRODUTOGRUPO(PRODUTO_CONTROLE, GRUPO_CONTROLE, SUBGRUPO_CONTROLE, STATUS) VALUES({$controle}, {$value['grupo']}, {$value['subgrupo']}, 1)");
+                        }
                    }else{
                         # Insere uma nova relação de produto grupo
                         $pdo->exec("INSERT INTO PRODUTOGRUPO(PRODUTO_CONTROLE, GRUPO_CONTROLE, SUBGRUPO_CONTROLE, STATUS) VALUES({$controle}, {$value['grupo']}, {$value['subgrupo']}, 1)");
@@ -121,6 +126,7 @@ if($_REQUEST != ""){
                 $grupo_controle[$arr[0]]['subgrupo'] = $arr[1];
             endforeach;
         }
+        #debug($grupo_controle,1);
         try {
             if(!$pdo->exec("UPDATE PRODUTO SET ".
                " DESCRICAO_LOJA         = '{$descricao}',". 

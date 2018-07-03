@@ -119,11 +119,16 @@ $page = "produto.php";
 
                           <div id="group_fileds">
                              <?php
+                             $count_global = 0;
                           $array_sub_usado = array();
                           $c_grp = count($array_grp);
                           if($c_grp > 0){
                             for($i = 0; $i < $c_grp; $i++){
-                                #debug($array_grp,1);
+                                
+                                # Utiliza o último índice para continuar a contagem
+                                # senão poderá repetir o índice já criado, o que faz
+                                # com que subscreva um array de indice repetido
+                                $count_global = $array_grp[$i]['PRODUTOGRUPO_CONTROLE'];
                           ?>
                               <div class="form-group" id="elemento-group-<?php echo $i; ?>">
                                   <div class="form-row">
@@ -296,15 +301,17 @@ $page = "produto.php";
             
         }
             
-            // Gera options para o select de groupos
-            var option_grupo = '';
-            var itarator     = <?php echo $c_grp; ?>;
-            for(var i = 0; i < array_grupo.length; i++){
-                option_grupo += '<option value="'+itarator+'|' + array_grupo[i]['controle'] + '">' + array_grupo[i]['nome'] + '</option>';
-                itarator++;
+            function make_grupo_option(itarator){
+                // Gera options para o select de groupos
+                var option_grupo = '';
+                for(var i = 0; i < array_grupo.length; i++){
+                    option_grupo += '<option value="' + itarator + '|' + array_grupo[i]['controle'] + '">' + array_grupo[i]['nome'] + '</option>';
+                }
+                
+                return option_grupo;
             }
         
-        var group = <?php echo $c_grp; ?>;
+        var group = <?php echo $count_global; ?>;
         function add_groups() {
             group++;
             var objTo = document.getElementById('group_fileds')
@@ -316,7 +323,7 @@ $page = "produto.php";
                     '      <label for="descricao">GRUPO</label>'+
                     '      <select name="grupo[]" id="select-groupo-' + group + '" class="form-control" onchange="add_option_group(this.id)">'+
                     '        <option>Selecione grupo</option>'+
-                    '        '+ option_grupo +
+                    '        '+ make_grupo_option(group) +
                     '        </select>'+
                     '    </div>' +
                     '    <div class="col-md-6">'+
