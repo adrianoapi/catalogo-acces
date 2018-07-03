@@ -129,7 +129,7 @@ $page = "produto.php";
                                   <div class="form-row">
                                       <div class="col-md-5">
                                           <label for="descricao">GRUPO</label>
-                                          <select name="grupo[]" class="form-control">
+                                          <select name="grupo[]" id="select-groupo-<?php echo $i; ?>" class="form-control" onchange="add_option_group(this.id)">
                                               <option>Selecione grupo</option>
                                               <?php foreach($select_grupo as $value){
                                                   $selected = $value['GRUPO_CONTROLE'] == $array_grp[$i]['GRUPO_CONTROLE'] ? "selected" : NULL;
@@ -262,6 +262,39 @@ $page = "produto.php";
                 ++$k;
             endforeach;
         ?>
+            
+        // Gera o arrayJS de subgrupos
+        var array_subgrupo = [];
+        <?php
+            $k = 0;
+            $string = NULL;
+            foreach($select_subgrupo as $value):
+                echo 'array_subgrupo['.$k.'] = {grupo_controle: '.$value['GRUPO_CONTROLE'].',subgrupo_controle: '.$value['SUBGRUPO_CONTROLE'].',nome: \''.trataStringJS($value['NOME']).'\'};';
+                ++$k;
+            endforeach;
+        ?>
+            
+        function add_option_group(id)
+        {
+            // Capiura a opção selecionada
+            var option = document.getElementById(id).value;
+                option = option.split('|');
+            var grupo_controle    = option[1];
+            var progrupo_controle = option[0];
+            
+            // Isola o número do id
+            var array  = id.split('-');
+            var id     = array[2];
+            
+            $('#select-subgroupo-' + id).empty();
+            
+            for(var i = 0; i < array_subgrupo.length; i++){
+                if(array_subgrupo[i]['grupo_controle'] == grupo_controle){
+                    $('#select-subgroupo-' + id).append($('<option/>', {value: progrupo_controle + '|' + array_subgrupo[i]['subgrupo_controle'], text: array_subgrupo[i]['nome']}));
+                }
+            }
+            
+        }
             
             // Gera options para o select de groupos
             var option_grupo = '';
