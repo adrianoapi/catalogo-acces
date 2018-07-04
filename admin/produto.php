@@ -121,14 +121,28 @@ $page = "produto.php";
                                 }else{
                                     $pre = 0;
                                 }
+                                
+                                $grupo_produto = NULL;
+                                $sql_grp = "SELECT s.NOME FROM SUBGRUPO AS s".
+                                           " INNER JOIN PRODUTOGRUPO AS p ON (p.SUBGRUPO_CONTROLE = s.SUBGRUPO_CONTROLE AND s.STATUS = 1)".
+                                           #" INNER JOIN SUBGRUPO     AS s ON (p.PRODUTOGRUPO_CONTROLE = s.SUBGRUPO_CONTROLE AND s.STATUS = 1)".
+                                           " WHERE p.PRODUTO_CONTROLE = $controle AND p.STATUS = 1 ";
+                                if($pdo->query($sql_grp)){
+                                    $qry_grp = $pdo->query($sql_grp);
+                                    while($row_grp = $qry_grp->fetch()){
+                                        $grupo_produto .= $row_grp['NOME'].",";
+                                    }
+                                }
                         ?>
                         <tr>
                             <td><input type="checkbox" name="id"></td>
                             <td><?php echo ($img) ? '<a href="./produto_alterar.php?cod='.$row['PRODUTO_CONTROLE'].'"><img src="../data/produtos/'.$img.'" width="60px"></a>' : NULL; ?></td>
                             <td>
-                                <?php echo utf8_encode($row['NOME']); ?>
+                                <strong><?php echo utf8_encode($row['NOME']); ?></strong>
                                 <br>
                                 <?php echo $pre > 0 ? "ofertas: {$pre}" : "oferta: {$pre}"; ?>
+                                <br>
+                                <?php echo strlen($grupo_produto) > 0 ? "grupos: {$grupo_produto}" : "grupo: "; ?>
                             </td>
                             <td>
                                 <div class="dropdown pull-right">

@@ -13,8 +13,25 @@ function alterar_subgrupo($pdo, $controle, $data = array()){
                " NOME  = '{$value['nome']}',".
                " STATUS = 1".
                " WHERE SUBGRUPO_CONTROLE = {$key} AND GRUPO_CONTROLE = {$controle}")){
-                   # Insere um novo subgrupo
-                   $pdo->exec("INSERT INTO SUBGRUPO(GRUPO_CONTROLE, NOME, STATUS) VALUES({$controle}, '{$value['nome']}', 1)");
+                   
+                   # Verifica se já existe subgrupo registrado
+                   $query = " SELECT * FROM SUBGRUPO WHERE       ".
+                            " GRUPO_CONTROLE   = {$controle} AND " .
+                            " NOME     = '{$value['nome']}'      ";
+                    if($pdo->query($query)){
+                        $rst = $pdo->query($query);
+                        $row = $rst->fetch();
+                        if(is_array($row)){
+                            # Torna visível
+                            $pdo->exec("UPDATE SUBGRUPO SET STATUS = 1 WHERE SUBGRUPO_CONTROLE = {$row['SUBGRUPO_CONTROLE']}");
+                        }else{
+                            # Insere um novo subgrupo
+                            $pdo->exec("INSERT INTO SUBGRUPO(GRUPO_CONTROLE, NOME, STATUS) VALUES({$controle}, '{$value['nome']}', 1)");
+                        }
+                    }else{
+                        # Insere um novo subgrupo
+                        $pdo->exec("INSERT INTO SUBGRUPO(GRUPO_CONTROLE, NOME, STATUS) VALUES({$controle}, '{$value['nome']}', 1)");
+                    }
                }
     endforeach;
 }
@@ -48,6 +65,8 @@ if($_REQUEST != ""){
                         
         $controle  = $_POST['controle'];
         $subgrupo  = $_POST['subgrupo'];
+//        debug($controle);
+//        debug($subgrupo,1);
         $nome      = utf8_decode(trataString($_POST['nome']));
         
         try {
