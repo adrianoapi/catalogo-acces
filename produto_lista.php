@@ -113,13 +113,13 @@
                             <td><?php echo ($img) ? '<a href="./produto.php?cod='.$row['PRODUTO_CONTROLE'].'"><img src="data/produtos/'.$img.'" width="60px"></a>' : NULL; ?></td>
                             <td>
                                 <?php 
-                                    echo "<strong>".utf8_encode($row['NOME'])."</strong>"; 
-                                    echo "<p style=\"text-align: justify;\">".utf8_encode($row['DESCRICAO_LOJA'])."</p>"; 
+                                    echo "<strong>".utf8_encode($row['NOME'])."</strong><br>"; 
+                                    echo "<span style=\"text-align: justify;\">".utf8_encode($row['DESCRICAO_LOJA'])."</span><br/>"; 
+                                    echo strlen($grupo_produto) > 0 ? "grupos: {$grupo_produto}" : "grupo: ";
                                 ?>
-                                <?php echo strlen($grupo_produto) > 0 ? "grupos: {$grupo_produto}" : "grupo: "; ?>
-                                <?php echo isset($preco['PRECO']) ? '<h4>R$ '.number_format($preco['PRECO'], 2, ',', '.').'</h4>' : ''; ?>
                             </td>
                             <td>
+                                <?php echo isset($preco['PRECO']) ? '<h4 class="pull-right">R$ '.number_format($preco['PRECO'], 2, ',', '.').'</h4>' : ''; ?>
                                 <a href="./produto.php?cod=<?php echo $row['PRODUTO_CONTROLE']; ?>" class="btn btn-default pull-right">Detalhes</a>
                             </td>
                         </tr>

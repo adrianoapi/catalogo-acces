@@ -1,5 +1,3 @@
-<div class="container">
-
         <hr>
 
         <!-- Footer -->
@@ -10,8 +8,6 @@
                 </div>
             </div>
         </footer>
-
-    </div>
     <!-- /.container -->
 
     <!-- jQuery -->

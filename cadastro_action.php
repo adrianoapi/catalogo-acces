@@ -45,7 +45,20 @@ function cadastra_pessoa($pdo, $nome, $cpf)
         $total  = $result->fetch();
         return  $total['PESSOA_CONTROLE'];
         
-    } catch (PDOException $Exceptio) {
+    } catch (PDOException $Exception) {
+        throw new MyDatabaseException($Exception->getMessage(), (int)$Exception->getCode());
+    }
+}
+
+function cadastra_endereco($pdo, $pessoa_controle, $tipo_endereco, $cep, $logradouro, $numero, $complemento = NULL, $bairro, $cidade, $estado, $bairro)
+{
+    try{
+        
+        if($rst = $pdo->exec("INSERT INTO PESSOA_ENDERECO(PESSOA_CONTROLE, TIPOENDERECO_CONTROLE, CEP, LOGRADOURO, NUMERO, COMPLEMENTO) VALUES({$pessoa_controle}, {$tipo_endereco}, '{$cep}', '{$logradouro}', '{$numero}', '{$complemento}', '{$bairro}')")){
+            debug($rst,1);
+        }
+        
+    } catch (PDOException $Exception) {
         throw new MyDatabaseException($Exception->getMessage(), (int)$Exception->getCode());
     }
 }
@@ -75,7 +88,10 @@ if($_REQUEST != "")
             if(!consultar_pessoa($pdo, $cpf)){
                 
                 # Registra pessoa
-                debug(cadastra_pessoa($pdo, $nome, $cpf));
+                $PESSOA_CONTROLE = cadastra_pessoa($pdo, $nome, $cpf);
+                
+                # Registra endereço
+                cadastra_endereco($pdo, $PESSOA_CONTROLE, 1, $cep, $logradouro, $numero, $complemento, $bairro, $cidade, $estado, $bairro);
                 
             }else{
                 

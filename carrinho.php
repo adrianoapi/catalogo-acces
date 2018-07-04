@@ -109,18 +109,16 @@ if(isset($_GET['action'])){
 
 ?>
 
-<body>
-
     <?php require_once 'includes/nav.php'; ?>
 
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
 
-        <div class="row">
+    <div class="row">
 
             <?php require_once 'includes/categoria.php';     ?>
 
-            <div class="col-lg-9">
+        <div class="col-lg-9">
                 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -168,24 +166,62 @@ if(isset($_GET['action'])){
                                 <tr>
                                     <td><h4>Total: <?php echo number_format($soma, 2, ',','.'); ?></h4></td>
                                     <td colspan="5">
-                                        <button type="submit" class="btn btn-success pull-right">Finalizar</button>
+                                        <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target=".bs-example-modal-sm">Finalizar</button>
                                         <button type="submit" class="btn btn-default pull-right" style="margin-right: 5px;">Atualizar</button>
                                     </td>
                                 </tr>
                             </tfoot>
                         </table>
                     </form>
+                    
+                    <!-- Small modal -->
+                    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Autenticação</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                <div class="col-lg-8 col-md-offset-2">
+                                    <form>
+                                        <div class="form-group">
+                                          <label for="exampleInputEmail1">Email</label>
+                                          <input class="form-control" id="exampleInputEmail1" type="text" aria-describedby="emailHelp" placeholder="usuário" required="true">
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="exampleInputPassword1">Senha</label>
+                                          <input class="form-control" id="exampleInputPassword1" type="password" placeholder="senha" required="true">
+                                        </div>
+                                        <input type="submit" class="btn btn-primary btn-block" value="Autenticar">
+                                  </form>
+                                    <hr>
+                                    <p><a href="./cadastro.php">Não possui cadastro?</a></p>
+                                    <p><a href="#">Esqueceu sua senha?</a></p>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                      </div>
+                    </div><!-- /.modal -->
 
-                </div<!--end/panel-body-->
-            </div><!--end/panel-->
-                
-        </div>
+                    </div<!--end/panel-body-->
+                </div><!--end/panel-->
 
-    </div>
+            </div>
+
+        </div><!--./col-lg-9-->
+     
     
-    <!-- /.container -->
     <?php require_once 'includes/fim.php';     ?>
     
-</body>
+    </div>
 
+</div><!-- /.container -->
+    
+</body>
 </html>
