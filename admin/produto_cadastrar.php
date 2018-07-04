@@ -55,7 +55,7 @@ $page = "produto.php";
                                   <div class="form-row">
                                       <div class="col-md-5">
                                           <label for="descricao">GRUPO</label>
-                                          <select name="grupo[]" id="select-groupo-0" class="form-control" onchange="add_option_group(this.id)">
+                                          <select name="grupo[]" id="select-groupo-0" class="form-control" onchange="add_option_group(this.id)" required>
                                               <option>Selecione grupo</option>
                                               <?php foreach($select_grupo as $value){
                                                   echo '<option value="0|'.$value['GRUPO_CONTROLE'].'">'.$value['NOME'].'</option>';
@@ -64,7 +64,7 @@ $page = "produto.php";
                                       </div>
                                       <div class="col-md-6">
                                           <label for="descricao">SUBGRUPO</label>
-                                          <select name="subgrupo[]" id="select-subgroupo-0" class="form-control">
+                                          <select name="subgrupo[]" id="select-subgroupo-0" class="form-control" required>
                                               <option>Selecione grupo</option>
                                           </select>
                                       </div>
@@ -191,15 +191,15 @@ $page = "produto.php";
             
         }
             
-            function make_grupo_option(itarator){
-                // Gera options para o select de groupos
-                var option_grupo = '';
-                for(var i = 0; i < array_grupo.length; i++){
-                    option_grupo += '<option value="' + itarator + '|' + array_grupo[i]['controle'] + '">' + array_grupo[i]['nome'] + '</option>';
-                }
-                
-                return option_grupo;
+        function make_grupo_option(itarator){
+            // Gera options para o select de groupos
+            var option_grupo = '';
+            for(var i = 0; i < array_grupo.length; i++){
+                option_grupo += '<option value="' + itarator + '|' + array_grupo[i]['controle'] + '">' + array_grupo[i]['nome'] + '</option>';
             }
+
+            return option_grupo;
+        }
         
         var group = 0;
         function add_groups() {

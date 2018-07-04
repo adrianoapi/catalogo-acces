@@ -94,6 +94,20 @@
                                 }else{
                                     $preco = NULL;
                                 }
+                                
+                                # Seleciona os grupos do produto
+                                $grupo_produto = NULL;
+                                $sql_grp = "SELECT s.NOME, g.NOME AS GRUPO_NOME FROM (SUBGRUPO AS s".
+                                           " INNER JOIN PRODUTOGRUPO AS p ON (p.SUBGRUPO_CONTROLE = s.SUBGRUPO_CONTROLE AND s.STATUS = 1))".
+                                           " INNER JOIN GRUPO        AS g ON (s.GRUPO_CONTROLE    = g.GRUPO_CONTROLE AND g.STATUS = 1)".
+                                           " WHERE p.PRODUTO_CONTROLE = $controle AND p.STATUS = 1 ";
+                                if($pdo->query($sql_grp)){
+                                    $qry_grp = $pdo->query($sql_grp);
+                                    while($row_grp = $qry_grp->fetch()){
+                                        $grupo_produto .= "<br>".$row_grp['GRUPO_NOME']." / ".$row_grp['NOME'];
+                                    }
+                                }
+                                
                         ?>
                         <tr>
                             <td><?php echo ($img) ? '<a href="./produto.php?cod='.$row['PRODUTO_CONTROLE'].'"><img src="data/produtos/'.$img.'" width="60px"></a>' : NULL; ?></td>
@@ -102,6 +116,7 @@
                                     echo "<strong>".utf8_encode($row['NOME'])."</strong>"; 
                                     echo "<p style=\"text-align: justify;\">".utf8_encode($row['DESCRICAO_LOJA'])."</p>"; 
                                 ?>
+                                <?php echo strlen($grupo_produto) > 0 ? "grupos: {$grupo_produto}" : "grupo: "; ?>
                                 <?php echo isset($preco['PRECO']) ? '<h4>R$ '.number_format($preco['PRECO'], 2, ',', '.').'</h4>' : ''; ?>
                             </td>
                             <td>

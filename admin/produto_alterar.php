@@ -125,7 +125,7 @@ $page = "produto.php";
                                   <div class="form-row">
                                       <div class="col-md-5">
                                           <label for="descricao">GRUPO</label>
-                                          <select name="grupo[]" id="select-groupo-<?php echo $i; ?>" class="form-control" onchange="add_option_group(this.id)">
+                                          <select name="grupo[]" id="select-groupo-<?php echo $i; ?>" class="form-control" onchange="add_option_group(this.id)" required>
                                               <option>Selecione grupo</option>
                                               <?php foreach($select_grupo as $value){
                                                   $selected = $value['GRUPO_CONTROLE'] == $array_grp[$i]['GRUPO_CONTROLE'] ? "selected" : NULL;
@@ -135,7 +135,7 @@ $page = "produto.php";
                                       </div>
                                       <div class="col-md-6">
                                           <label for="descricao">SUBGRUPO</label>
-                                          <select name="subgrupo[]" id="select-subgroupo-<?php echo $i; ?>" class="form-control">
+                                          <select name="subgrupo[]" id="select-subgroupo-<?php echo $i; ?>" class="form-control" required>
                                               <option>Selecione grupo</option>
                                               <?php
                                               $selected = NULL;

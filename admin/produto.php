@@ -122,15 +122,16 @@ $page = "produto.php";
                                     $pre = 0;
                                 }
                                 
+                                # Seleciona os grupos do produto
                                 $grupo_produto = NULL;
-                                $sql_grp = "SELECT s.NOME FROM SUBGRUPO AS s".
-                                           " INNER JOIN PRODUTOGRUPO AS p ON (p.SUBGRUPO_CONTROLE = s.SUBGRUPO_CONTROLE AND s.STATUS = 1)".
-                                           #" INNER JOIN SUBGRUPO     AS s ON (p.PRODUTOGRUPO_CONTROLE = s.SUBGRUPO_CONTROLE AND s.STATUS = 1)".
+                                $sql_grp = "SELECT s.NOME, g.NOME AS GRUPO_NOME FROM (SUBGRUPO AS s".
+                                           " INNER JOIN PRODUTOGRUPO AS p ON (p.SUBGRUPO_CONTROLE = s.SUBGRUPO_CONTROLE AND s.STATUS = 1))".
+                                           " INNER JOIN GRUPO        AS g ON (s.GRUPO_CONTROLE    = g.GRUPO_CONTROLE AND g.STATUS = 1)".
                                            " WHERE p.PRODUTO_CONTROLE = $controle AND p.STATUS = 1 ";
                                 if($pdo->query($sql_grp)){
                                     $qry_grp = $pdo->query($sql_grp);
                                     while($row_grp = $qry_grp->fetch()){
-                                        $grupo_produto .= $row_grp['NOME'].",";
+                                        $grupo_produto .= "<br>".$row_grp['GRUPO_NOME']." / ".$row_grp['NOME'];
                                     }
                                 }
                         ?>
