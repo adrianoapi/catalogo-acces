@@ -21,10 +21,10 @@
     <div class="col-md-12">
         <br/>
         <div class="list-group">
-            <a href="./"          class="list-group-item <?php echo $page == "dashboard" ? 'active' : NULL; ?>"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Dashboard</a>
-            <a href="produto.php" class="list-group-item <?php echo $page == "produto.php"  ? 'active' : NULL; ?>"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Produtos</a>
-            <a href="grupo.php"   class="list-group-item <?php echo $page == "grupo.php"  ? 'active' : NULL; ?>"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Grupos</a>
-            <a href="#"           class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Clientes</a>
+            <a href="./"          class="list-group-item <?php echo $page == "dashboard"    ? 'active' : NULL; ?>"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Dashboard</a>
+            <a href="produto.php" class="list-group-item <?php echo $page == "produto.php"  ? 'active' : NULL; ?>"><span class="glyphicon glyphicon-barcode"   aria-hidden="true"></span> Produtos</a>
+            <a href="grupo.php"   class="list-group-item <?php echo $page == "grupo.php"    ? 'active' : NULL; ?>"><span class="glyphicon glyphicon-th"        aria-hidden="true"></span> Grupos</a>
+            <a href="pessoa.php"  class="list-group-item <?php echo $page == "pessoa.php"   ? 'active' : NULL; ?>"><span class="glyphicon glyphicon-user"      aria-hidden="true"></span> Pessoas</a>
             <a href="#"           class="list-group-item"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Pedidos</a>
         </div>
     </div>

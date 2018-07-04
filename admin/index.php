@@ -13,6 +13,10 @@ $sql_sub  = "SELECT COUNT(*) FROM SUBGRUPO WHERE STATUS = 1";
 $rst_sub  = $pdo->query($sql_sub);
 $row_sub  = $rst_sub->fetch();
 
+$sql_pes  = "SELECT COUNT(*) FROM PESSOA WHERE STATUS = 1";
+$rst_pes  = $pdo->query($sql_pes);
+$row_pes  = $rst_pes->fetch();
+
 ?>
 
 <body>
@@ -60,7 +64,7 @@ $row_sub  = $rst_sub->fetch();
                            <div class="panel-heading">
                               <h3 class="panel-title">Cadastros</h3>
                            </div>
-                           <div class="panel-body"> Registros: X </div>
+                           <div class="panel-body"> Registros: <?php print($row_pes[0]); ?> </div>
                         </div>
 
                     </div>
