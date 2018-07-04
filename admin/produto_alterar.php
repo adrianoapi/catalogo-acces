@@ -50,14 +50,6 @@ $page = "produto.php";
                                   array_push($select_grupo, $row_grp);
                               }
                               
-                              # Select grupo
-                              $select_grupo = array();
-                              $sql_grp = "SELECT * FROM GRUPO WHERE STATUS = 1";
-                              $qry_grp = $pdo->query($sql_grp);
-                              while ($row_grp = $qry_grp->fetch()){
-                                  array_push($select_grupo, $row_grp);
-                              }
-                              
                               # Select subgrupo
                               $select_subgrupo = array();
                               $sql_sub = "SELECT * FROM SUBGRUPO WHERE STATUS = 1";
@@ -65,7 +57,6 @@ $page = "produto.php";
                               while ($row_sub = $qry_sub->fetch()){
                                   array_push($select_subgrupo, $row_sub);
                               }
-                              #debug($select_subgrupo,1);
                               
                               # Seleciona relação dos grupos e subgrupos
                               $sql_pgrp = " SELECT pg.* FROM (PRODUTOGRUPO AS pg " .

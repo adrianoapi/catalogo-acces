@@ -70,11 +70,27 @@ function alterar_produto_grupo($pdo, $controle, $data = array())
 if($_REQUEST != ""){
     
     if($_REQUEST['action'] == "cadastrar"){
-        
+        #debug($_POST,1);
         $nome      = utf8_decode(trataString($_POST['nome'     ]));
         $descricao = utf8_decode(trataString($_POST['descricao']));
         $ofertas   = $_POST['oferta'];
         
+        $grupo_controle = array();
+        # Define o grupo no array $grupo_controle
+        if(isset($_POST['grupo'])){
+            foreach ($_POST['grupo'] as $value):
+                $arr = explode("|", $value);
+                $grupo_controle[$arr[0]]['grupo'] = $arr[1];
+            endforeach;
+        }
+        # Define o subgrupo no array $grupo_controle
+        if(isset($_POST['subgrupo'])){
+            foreach ($_POST['subgrupo'] as $value):
+                $arr = explode("|", $value);
+                $grupo_controle[$arr[0]]['subgrupo'] = $arr[1];
+            endforeach;
+        }
+       
         try {
             
             if(!$rst = $pdo->exec("INSERT INTO PRODUTO(NOME, DESCRICAO_LOJA, STATUS) VALUES('{$nome}','{$descricao}', 1)")){
@@ -89,6 +105,7 @@ if($_REQUEST != ""){
                $total_registros = $result->fetch();
                $controle = $total_registros['PRODUTO_CONTROLE'];
                
+               alterar_produto_grupo($pdo, $controle, $grupo_controle);
                alterar_produto_preco($pdo, $controle, $ofertas);
                
                $_SESSION['confirm'] = "Cadastrado";

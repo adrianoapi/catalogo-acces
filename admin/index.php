@@ -28,6 +28,8 @@ $row_sub  = $rst_sub->fetch();
 
             <div class="col-md-9">
                 
+                <h3>Dashboard</h3>
+                
                 <div class="row">
                     
                     <div class="col-md-6">
