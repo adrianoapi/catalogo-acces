@@ -129,7 +129,7 @@ $page = "produto.php";
                                               <option>Selecione grupo</option>
                                               <?php foreach($select_grupo as $value){
                                                   $selected = $value['GRUPO_CONTROLE'] == $array_grp[$i]['GRUPO_CONTROLE'] ? "selected" : NULL;
-                                                  echo '<option value="'.$array_grp[$i]['PRODUTOGRUPO_CONTROLE'].'|'.$value['GRUPO_CONTROLE'].'" '.$selected.'>'.$value['NOME'].'</option>';
+                                                  echo '<option value="'.$array_grp[$i]['PRODUTOGRUPO_CONTROLE'].'|'.$value['GRUPO_CONTROLE'].'" '.$selected.'>'.utf8_encode($value['NOME']).'</option>';
                                               } ?>
                                           </select>
                                       </div>

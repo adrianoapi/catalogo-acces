@@ -20,6 +20,7 @@
         <div class="list-group">
             <a href="./" class="list-group-item">Home</a>
             <a href="./produto_lista.php" class="list-group-item">Produtos</a>
+            <a href="./categoria.php" class="list-group-item">Categorias</a>
         </div>
     </div>
     

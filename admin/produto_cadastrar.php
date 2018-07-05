@@ -58,7 +58,7 @@ $page = "produto.php";
                                           <select name="grupo[]" id="select-groupo-0" class="form-control" onchange="add_option_group(this.id)" required>
                                               <option>Selecione grupo</option>
                                               <?php foreach($select_grupo as $value){
-                                                  echo '<option value="0|'.$value['GRUPO_CONTROLE'].'">'.$value['NOME'].'</option>';
+                                                  echo '<option value="0|'.$value['GRUPO_CONTROLE'].'">'.utf8_encode($value['NOME']).'</option>';
                                               } ?>
                                           </select>
                                       </div>

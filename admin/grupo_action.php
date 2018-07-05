@@ -65,8 +65,6 @@ if($_REQUEST != ""){
                         
         $controle  = $_POST['controle'];
         $subgrupo  = $_POST['subgrupo'];
-//        debug($controle);
-//        debug($subgrupo,1);
         $nome      = utf8_decode(trataString($_POST['nome']));
         
         try {

@@ -185,14 +185,15 @@ if(isset($_GET['action'])){
                             <div class="modal-body">
                                 <div class="row">
                                 <div class="col-lg-8 col-md-offset-2">
-                                    <form>
+                                    <form id="form-login" method="POST" onsubmit="return false">
+                                        <input type="hidden" name="action" value="autenticar">
                                         <div class="form-group">
                                           <label for="exampleInputEmail1">Email</label>
-                                          <input class="form-control" id="exampleInputEmail1" type="text" aria-describedby="emailHelp" placeholder="usuário" required="true">
+                                          <input class="form-control" id="exampleInputEmail1" type="text" name="email" aria-describedby="emailHelp" placeholder="usuário" required="true">
                                         </div>
                                         <div class="form-group">
                                           <label for="exampleInputPassword1">Senha</label>
-                                          <input class="form-control" id="exampleInputPassword1" type="password" placeholder="senha" required="true">
+                                          <input class="form-control" id="exampleInputPassword1" type="password" name="senha" placeholder="senha" required="true">
                                         </div>
                                         <input type="submit" class="btn btn-primary btn-block" value="Autenticar">
                                   </form>
@@ -222,6 +223,29 @@ if(isset($_GET['action'])){
     </div>
 
 </div><!-- /.container -->
+
+<script>
+    
+    $("#form-login").submit(function(event){
+        
+        event.preventDefault();
+        
+        var send = $.post("login_action.php", $(this).serialize(), function(data){
+            
+            //return
+            
+        }).done(function(){
+           //alert('done: success'); 
+        }).fail(function(){
+            alert('Falha na conexão com o servidor. \n Verifique seu sinal de internet.');
+        }).always(function(){
+            //alert('finishid');
+        });
+        
+    });
+
+    
+</script>
     
 </body>
 </html>

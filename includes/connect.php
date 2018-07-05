@@ -27,18 +27,19 @@ function debug($data, $stop = false)
         die();
 }
 
-function paginacao($max_links, $p, $pags, $pesquisa = NULL){
+function paginacao($max_links, $p, $pags, $pesquisa = NULL, $grupo = NULL){
     
     $pesquisa = $pesquisa != NULL ? "&pesquisa=$pesquisa" : NULL;
+    $grupo    = $grupo    != NULL ? "&grupo=$grupo"       : NULL;
     echo "<ul class=\"pagination\" style=\"margin:0;padding:0;\">";
     
-    echo "<li><a href=\"?p=1$pesquisa\" class=\"pagination\" target=\"_self\">&laquo;</a></li>";
+    echo "<li><a href=\"?p=1{$pesquisa}{$grupo}\" class=\"pagination\" target=\"_self\">&laquo;</a></li>";
 
     for ($i = $p - $max_links; $i <= $p - 1; $i++) {
 
         if ($i <= 0) {
         } else {
-            echo "<li><a href=\"?p=" . $i.$pesquisa . "\" class=\"pagination\" target=\"_self\">" . $i . "</a></li>";
+            echo "<li><a href=\"?p=" . $i.$pesquisa.$grupo . "\" class=\"pagination\" target=\"_self\">" . $i . "</a></li>";
         }
     }
 
@@ -49,10 +50,10 @@ function paginacao($max_links, $p, $pags, $pesquisa = NULL){
         }
         // Se tiver tudo Ok gera os links.
         else {
-            echo "<li><a href=\"?p=" . $i.$pesquisa . "\" class=\"pagination\" target=\"_self\">" . $i . "</a></li>";
+            echo "<li><a href=\"?p=" . $i.$pesquisa.$grupo . "\" class=\"pagination\" target=\"_self\">" . $i . "</a></li>";
         }
     }
-    echo "<li><a href=\"?p=" . $pags.$pesquisa . "\" class=\"pagination\" target=\"_self\">&raquo;</a></li>";
+    echo "<li><a href=\"?p=" . $pags.$pesquisa.$grupo . "\" class=\"pagination\" target=\"_self\">&raquo;</a></li>";
     
     echo "</ul>";
 
