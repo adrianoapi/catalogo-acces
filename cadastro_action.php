@@ -50,16 +50,38 @@ function cadastra_pessoa($pdo, $nome, $cpf)
     }
 }
 
-function cadastra_endereco($pdo, $pessoa_controle, $tipo_endereco, $cep, $logradouro, $numero, $complemento = NULL, $bairro, $cidade, $estado, $bairro)
+function cadastra_endereco($pdo, $pessoa_controle, $tipo_endereco, $cep, $logradouro, $numero, $complemento = NULL, $bairro, $municipio, $uf)
 {
     try{
         
-        if($rst = $pdo->exec("INSERT INTO PESSOA_ENDERECO(PESSOA_CONTROLE, TIPOENDERECO_CONTROLE, CEP, LOGRADOURO, NUMERO, COMPLEMENTO) VALUES({$pessoa_controle}, {$tipo_endereco}, '{$cep}', '{$logradouro}', '{$numero}', '{$complemento}', '{$bairro}')")){
-            debug($rst,1);
+        if($rst = $pdo->exec("INSERT INTO PESSOA_ENDERECO(PESSOA_CONTROLE, TIPOENDERECO_CONTROLE, CEP, LOGRADOURO, NUMERO, COMPLEMENTO, BAIRRO, MUNICIPIO, UF) ".
+                " VALUES({$pessoa_controle}, {$tipo_endereco}, '{$cep}', '{$logradouro}', '{$numero}', '{$complemento}', '{$bairro}', '{$municipio}', '{$uf}')")){
+           
         }
         
     } catch (PDOException $Exception) {
         throw new MyDatabaseException($Exception->getMessage(), (int)$Exception->getCode());
+    }
+}
+
+/*
+ * 
+ *1 -> Telefone
+ *2 -> Email
+ *3 -> Celular
+ *4 -> Fax
+ * 
+ */
+function cadastra_meio_contato($pdo, $pessoa_controle, $tipo, $valor)
+{
+    try{
+        
+        if($rst = $pdo->exec("INSERT INTO PESSOA_MEIOCONTATO(PESSOA_CONTROLE, TIPOMEIOCONTATO_CONTROLE, VALOR, STATUS) VALUES({$pessoa_controle}, {$tipo}, '{$valor}', 1)")){
+           
+        }
+        
+    }catch(PDOException $Exception){
+        throw new MyDataBaseException($Exception->getMessage(), (int)$Exception->getCode());
     }
 }
 
@@ -78,8 +100,8 @@ if($_REQUEST != "")
             $numero            = $_POST['numero'           ];
             $complemento       = $_POST['complemento'      ];
             $bairro            = $_POST['bairro'           ];
-            $cidade            = $_POST['cidade'           ];
-            $estado            = $_POST['estado'           ];
+            $municipio         = $_POST['municipio'        ];
+            $uf                = $_POST['uf'               ];
             $telefone          = $_POST['telefone'         ];
             $email             = $_POST['email'            ];
             $email_confirmacao = $_POST['email_confirmacao'];
@@ -91,7 +113,9 @@ if($_REQUEST != "")
                 $PESSOA_CONTROLE = cadastra_pessoa($pdo, $nome, $cpf);
                 
                 # Registra endereço
-                cadastra_endereco($pdo, $PESSOA_CONTROLE, 1, $cep, $logradouro, $numero, $complemento, $bairro, $cidade, $estado, $bairro);
+                cadastra_endereco($pdo, $PESSOA_CONTROLE, 1, $cep, $logradouro, $numero, $complemento, $bairro, $municipio, $uf);
+                cadastra_meio_contato($pdo, $PESSOA_CONTROLE, 1, $telefone); # Registar meio contato: Telefone
+                cadastra_meio_contato($pdo, $PESSOA_CONTROLE, 2, $email   ); # Registar meio contato: e-mail
                 
             }else{
                 

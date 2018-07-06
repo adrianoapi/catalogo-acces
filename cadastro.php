@@ -70,11 +70,11 @@
                                 </div>
                                 <div class="col-md-4">
                                   <label for="exampleInputName">Cidade</label>
-                                  <input class="form-control" id="cidade" name="cidade" type="text" value="" aria-describedby="nameHelp" placeholder="nome" required>
+                                  <input class="form-control" id="municipio" name="municipio" type="text" value="" aria-describedby="nameHelp" placeholder="nome" required>
                                 </div>
                                 <div class="col-md-4">
                                   <label for="exampleInputName">Estado</label>
-                                  <input class="form-control" id="estado" name="estado" type="text" value="" aria-describedby="nameHelp" placeholder="nome" required>
+                                  <input class="form-control" id="uf" name="uf" type="text" value="" aria-describedby="nameHelp" placeholder="nome" required>
                                 </div>
                               </div>
                             </div>
@@ -147,8 +147,8 @@
             var logradouro = document.getElementById('logradouro').value;
             var numero     = document.getElementById('numero'    ).value;
             var bairro     = document.getElementById('bairro'    ).value;
-            var cidade     = document.getElementById('cidade'    ).value;
-            var estado     = document.getElementById('estado'    ).value;
+            var municipio  = document.getElementById('municipio' ).value;
+            var uf         = document.getElementById('uf'        ).value;
             var senha      = document.getElementById('senha'     ).value;
             
             var er = /^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z-0-9]{2}/;
@@ -178,8 +178,8 @@
                     
                     document.getElementById("logradouro").value = data['logradouro'];
                     document.getElementById("bairro"    ).value = data['bairro'    ];
-                    document.getElementById("cidade"    ).value = data['cidade'    ];
-                    document.getElementById("estado"    ).value = data['uf'        ];
+                    document.getElementById("municipio" ).value = data['cidade'    ];
+                    document.getElementById("uf"        ).value = data['uf'        ];
                     document.getElementById("numero"    ).focus();
                     
                 }
