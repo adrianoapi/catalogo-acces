@@ -33,7 +33,7 @@
                             if($pdo->query($sql_sub)){
                                 $qry_sub = $pdo->query($sql_sub);
                                 while($sub = $qry_sub->fetch()){
-                                    echo "<li><a href=\"produto_grupo.php?grupo={$sub['SUBGRUPO_CONTROLE']}\">".$sub['NOME']."</a></li>";
+                                    echo "<li><a href=\"produto_subgrupo.php?grupo={$sub['SUBGRUPO_CONTROLE']}\">".$sub['NOME']."</a></li>";
                                 }
                             }
                             

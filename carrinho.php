@@ -48,11 +48,11 @@ if(count($_POST) > 0){
                 }else{
                     # Senão, ele insere
                     array_push($_SESSION['carrinho'], array(
-                    'controle'     => $_POST['controle'],
-                    'imagem'       => $_POST['imagem'],
-                    'nome'         => $_POST['nome'],
+                    'controle'     => $_POST['controle'  ],
+                    'imagem'       => $_POST['imagem'    ],
+                    'nome'         => $_POST['nome'      ],
                     'quantidade'   => $_POST['quantidade'],
-                    'oferta'       => $_POST['oferta'],
+                    'oferta'       => $_POST['oferta'    ],
                     'oferta_valor' => $_SESSION['oferta'][$_POST['oferta']]
                     ));
                 }
@@ -75,10 +75,6 @@ if(count($_POST) > 0){
 
         }
         
-    
-    
-    
-    
 }
 
 
