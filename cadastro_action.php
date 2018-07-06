@@ -32,6 +32,23 @@ function consultar_pessoa($pdo, $cpf)
     }
 }
 
+function consultar_email($pdo, $mail)
+{
+    $sql    = " SELECT TOP 1 PESSOA_CONTROLE FROM PESSOA_MEIOCONTATO " .
+              " WHERE VALOR = '{$mail}' AND STATUS = 1 ";
+    
+    if($pdo->query($sql)){
+        
+        $result = $pdo->query($sql);
+        $total  = $result->fetch();
+        return  $total['PESSOA_CONTROLE'];
+        
+    }else{
+        return NULL;
+        
+    }
+}
+
 function cadastra_pessoa($pdo, $nome, $cpf)
 {
     try{
@@ -109,17 +126,24 @@ if($_REQUEST != "")
             # Consulta pessoa
             if(!consultar_pessoa($pdo, $cpf)){
                 
-                # Registra pessoa
-                $PESSOA_CONTROLE = cadastra_pessoa($pdo, $nome, $cpf);
+                # Consulta e-mail
+                if(!consultar_email($pdo, $email)){
+                    
+                    # Registra pessoa
+                    $PESSOA_CONTROLE = cadastra_pessoa($pdo, $nome, $cpf);
+
+                    # Registra endereço
+                    cadastra_endereco($pdo, $PESSOA_CONTROLE, 1, $cep, $logradouro, $numero, $complemento, $bairro, $municipio, $uf);
+                    cadastra_meio_contato($pdo, $PESSOA_CONTROLE, 1, $telefone); # Registar meio contato: Telefone
+                    cadastra_meio_contato($pdo, $PESSOA_CONTROLE, 2, $email   ); # Registar meio contato: e-mail
+                    
+                }
                 
-                # Registra endereço
-                cadastra_endereco($pdo, $PESSOA_CONTROLE, 1, $cep, $logradouro, $numero, $complemento, $bairro, $municipio, $uf);
-                cadastra_meio_contato($pdo, $PESSOA_CONTROLE, 1, $telefone); # Registar meio contato: Telefone
-                cadastra_meio_contato($pdo, $PESSOA_CONTROLE, 2, $email   ); # Registar meio contato: e-mail
                 
             }else{
                 
-                die('Cadastro já existe!');
+                error("<h4>Cadastro já existe!</h4>");
+                die();
                 
             }
             

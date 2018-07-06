@@ -85,4 +85,14 @@ function trataStringJS($str)
     return $str;
 }
 
+function error($msg)
+{
+    echo '<div class="col-lg-4 col-md-offset-4">
+            <div class="panel panel-danger">
+               <div class="panel-heading">ERRO</div>
+               <div class="panel-body"> '.$msg.' </div>
+            </div>
+         </div>';
+}
+
 ?>
