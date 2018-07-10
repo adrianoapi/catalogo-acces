@@ -155,7 +155,17 @@ if(isset($_GET['action'])){
                                 <tr>
                                     <td><h4>Total: <?php echo number_format($soma, 2, ',','.'); ?></h4></td>
                                     <td colspan="5">
-                                        <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target=".bs-example-modal-sm">Finalizar</button>
+                                        <?php 
+                                        if(isset($_SESSION['AUTH'])){
+                                        ?>
+                                            <a href="pedido_endereco.php" class="btn btn-success pull-right">Finalizar</a>
+                                        <?php 
+                                        }else{
+                                        ?>
+                                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target=".bs-example-modal-sm">Finalizar</button>
+                                        <?php 
+                                        }
+                                        ?>
                                         <button type="submit" class="btn btn-default pull-right" style="margin-right: 5px;">Atualizar</button>
                                     </td>
                                 </tr>
@@ -221,7 +231,11 @@ if(isset($_GET['action'])){
         
         var send = $.post("login_action.php", $(this).serialize(), function(data){
             
-            console.log(data);
+            if(data){
+                window.location = 'pedido_endereco.php';
+            }else{
+                alert('Erro');
+            }
 
         }).done(function(){
            //alert('done: success'); 

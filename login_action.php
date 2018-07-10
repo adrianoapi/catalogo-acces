@@ -1,6 +1,7 @@
 <?php
 
 require_once 'includes/connect.php';
+require_once 'includes/security.php';
 
 function check_pessoa($pdo, $email, $senha)
 {
@@ -32,9 +33,15 @@ if(isset($_POST['action'])){
         $rst = check_pessoa($pdo, $email, $senha);
         
         if(is_array($rst)){
-            print_r($rst);
+            
+            if(registra_login($rst)){
+                echo 1;
+            }
+            
         }else{
-            echo "falhou";
+            
+            echo 0;
+            
         }
 
     }

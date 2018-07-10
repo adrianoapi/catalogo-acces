@@ -85,14 +85,42 @@ function trataStringJS($str)
     return $str;
 }
 
-function error($msg)
+function error($msg, $col = 4, $offset = 4)
 {
-    echo '<div class="col-lg-4 col-md-offset-4">
+    echo '<div class="col-lg-'.$col.' col-md-offset-'.$offset.'">
             <div class="panel panel-danger">
                <div class="panel-heading">ERRO</div>
                <div class="panel-body"> '.$msg.' </div>
             </div>
          </div>';
+}
+
+/**
+ * Registra uma sessão com dados do cliente
+ * @param array $data
+ * @return boolean
+ */
+function registra_login(array $data)
+{
+    
+    if(is_numeric($data['PESSOA_CONTROLE']) && isset($data['NOME']) && isset($data['VALOR'])){
+        
+        // Cria a sessão do cliente
+        $_SESSION['AUTH'] = array(
+            'controle' => $data['PESSOA_CONTROLE'],
+            'nome'     => $data['NOME'           ],
+            'emai'     => $data['VALOR'          ],
+            'time'     => date('Y-m-d H:i:s')
+        );
+        
+        return TRUE;
+        
+    }else{
+        
+        return FALSE;
+        
+    }
+    
 }
 
 ?>
