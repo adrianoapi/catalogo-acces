@@ -158,11 +158,11 @@ if(isset($_GET['action'])){
                                         <?php 
                                         if(isset($_SESSION['AUTH'])){
                                         ?>
-                                            <a href="pedido_endereco.php" class="btn btn-success pull-right">Finalizar</a>
+                                            <a href="pedido_endereco.php" class="btn btn-success pull-right">Continuar <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></a>
                                         <?php 
                                         }else{
                                         ?>
-                                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target=".bs-example-modal-sm">Finalizar</button>
+                                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target=".bs-example-modal-sm">Continuar <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></button>
                                         <?php 
                                         }
                                         ?>

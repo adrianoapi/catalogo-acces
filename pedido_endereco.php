@@ -69,7 +69,7 @@
                               <div class="form-row">
                                 <div class="col-md-2">
                                   <label for="exampleInputName">cep</label>
-                                  <input class="form-control" id="cep" name="cep" value="<?php echo $rst['CEP'];?>" type="number" value="" aria-describedby="nameHelp" placeholder="cep" onKeyDown="limitarCaracteres(this,8);" onKeyUp="limitarCaracteres(this,8);" required>
+                                  <input class="form-control" id="cep" name="cep" value="<?php echo $rst['CEP'];?>" type="text" value="" aria-describedby="nameHelp" placeholder="cep" onKeyDown="limitarCaracteres(this,8);" onKeyUp="limitarCaracteres(this,8);" required>
                                 </div>
                                 <div class="col-md-6">
                                   <label for="exampleInputName">Logradouro</label>
@@ -105,8 +105,8 @@
                             <div class="form-group">
                               <div class="form-row">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-success pull-right">Continuar</button>
-                                    <a href="carrinho.php" class="btn btn-default pull-left">Voltar</a>
+                                    <button type="submit" class="btn btn-success pull-right"> Continuar <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></button>
+                                    <a href="carrinho.php" class="btn btn-default pull-left"><span class="glyphicon glyphicon-chevron-left pull-left" aria-hidden="true"></span> Voltar</a>
                                 </div>
                               </div>
                             </div>

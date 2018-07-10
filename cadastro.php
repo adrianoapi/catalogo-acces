@@ -46,7 +46,7 @@
                               <div class="form-row">
                                 <div class="col-md-2">
                                   <label for="exampleInputName">cep</label>
-                                  <input class="form-control" id="cep" name="cep" type="number" value="" aria-describedby="nameHelp" placeholder="cep" onKeyDown="limitarCaracteres(this,8);" onKeyUp="limitarCaracteres(this,8);" required>
+                                  <input class="form-control" id="cep" name="cep" type="text" value="" aria-describedby="nameHelp" placeholder="cep" onKeyDown="limitarCaracteres(this,8);" onKeyUp="limitarCaracteres(this,8);" required>
                                 </div>
                                 <div class="col-md-6">
                                   <label for="exampleInputName">Logradouro</label>
