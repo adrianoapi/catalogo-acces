@@ -10,8 +10,6 @@ if(@!$_SESSION['carrinho']){
 
 # Implementa o carrinho
 if(count($_POST) > 0){
-    
-    
         
         if($_POST['action'] == "adicionar"){
             
@@ -46,7 +44,7 @@ if(count($_POST) > 0){
                     $_SESSION['carrinho'][$controle]['oferta_valor'] = $_SESSION['oferta'][$_POST['oferta']];
 
                 }else{
-                    # Senão, ele insere
+                    # Se não, insere
                     array_push($_SESSION['carrinho'], array(
                     'controle'     => $_POST['controle'  ],
                     'imagem'       => $_POST['imagem'    ],
@@ -68,7 +66,7 @@ if(count($_POST) > 0){
                 if($_POST['quantidade'][$value['controle']] > 0){
                     $_SESSION['carrinho'][$key]['quantidade'] = $_POST['quantidade'][$value['controle']];
                 }else{
-                    # Senão remove do carrinho
+                    # Se não, remove do carrinho
                     unset($_SESSION['carrinho'][$key]);
                 }
             endforeach;
@@ -158,11 +156,11 @@ if(isset($_GET['action'])){
                                         <?php 
                                         if(isset($_SESSION['AUTH'])){
                                         ?>
-                                            <a href="pedido_endereco.php" class="btn btn-success pull-right">Continuar <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></a>
+                                            <a href="pedido_endereco.php" class="btn btn-success pull-right">Continuar</a>
                                         <?php 
                                         }else{
                                         ?>
-                                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target=".bs-example-modal-sm">Continuar <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></button>
+                                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target=".bs-example-modal-sm">Continuar</button>
                                         <?php 
                                         }
                                         ?>

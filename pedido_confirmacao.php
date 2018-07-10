@@ -2,9 +2,85 @@
 <?php require_once 'includes/topo.php';      ?>
 <?php require_once 'includes/security.php';  ?>
 <?php
+
+function registrar_pedido($pdo, array $data)
+{
+    # Registra o pedido
+    $sql = " INSERT INTO ECOMMERCE (PESSOA_CONTROLE,EMISSAO,VALORNF,STATUS) ".
+           " VALUES ({$data['PESSOA_CONTROLE']},'{$data['EMISSAO']}', '{$data['VALORNF']}', 1)";
+    if($pdo->exec($sql)){
+        
+        # Retorna os dados do último pedido registrado
+        $consulta = $pdo->query(" SELECT TOP 1 * FROM ECOMMERCE WHERE " .
+                                " PESSOA_CONTROLE = {$data['PESSOA_CONTROLE']} ".
+                                " ORDER BY PESSOA_CONTROLE DESC ");
+        $result   = $consulta->fetch();
+        return $result['ECOMMERCE_CONTROLE'];
+        
+    }else{
+        return FALSE;
+    }
+    return $pdo->exec($sql);
+}
+
+function registrar_pedido_item($pdo, $eccomerce_controle, array $data)
+{
+    foreach ($data as $value) {
+        $total = $value['oferta_valor'] * $value['quantidade'];
+        $sql = " INSERT INTO ECOMMERCE_ITEM (ECOMMERCE_CONTROLE, PRODUTO_CONTROLE, QUANTIDADE, VALORUNITARIO, VALORTOTAL, STATUS) ".
+               " VALUES ({$eccomerce_controle}, {$value['controle']}, {$value['quantidade']}, '{$value['oferta_valor']}', '{$total}', 1)";
+        $pdo->exec($sql);
+    }
+    
+    return TRUE;
+}
+
+    if(isset($_POST['action'])){
+        
+        if($_POST['action'] = "finalizar"){
+            
+            $soma = 0;
+            foreach ($_SESSION['carrinho'] as $value):
+                
+                $valor = $value['oferta_valor'];
+                $soma += $valor * $value['quantidade'];
+                
+            endforeach;
+            
+            $dados_pedido = array(
+                'PESSOA_CONTROLE' => $_SESSION['AUTH']['controle'],
+                'VALORNF'         => $soma,
+                'EMISSAO'         => date('Y-m-d H:i:s')
+            );
+            
+            # Popula a tabela ECOMMERCE 
+            $ecommerce_controle = registrar_pedido($pdo, $dados_pedido);
+            
+            if($ecommerce_controle){
+                
+                # Popula a tabela ECOMMERCE_ITEM
+                if(registrar_pedido_item($pdo, $ecommerce_controle, $_SESSION['carrinho'])){
+                    
+                    unset($_SESSION['carrinho']);
+                    
+                    # Redireciona para o extrato
+                    header("Location: pedido_resumo.php?cod=".$ecommerce_controle);
+                    
+                }
+                
+            }
+            
+                       
+            
+            
+        }
+        
+    }
+
     $sql = "SELECT TOP 1 * FROM PESSOA_ENDERECO WHERE PESSOA_CONTROLE = {$_SESSION['AUTH']['controle']}";
     $qry = $pdo->query($sql);
     $rst = $qry->fetch();
+    
 ?>
 <body>
 
@@ -85,7 +161,10 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-success col-lg-12"><span class="glyphicon glyphicon-thumbs-up pull-left" aria-hidden="true"></span>FINALIZAR PEDIDO</button>
+                        <form action="pedido_confirmacao.php" method="POST">
+                            <input type="hidden" name="action" value="finalizar">
+                            <button type="submit" class="btn btn-success col-lg-12">FINALIZAR PEDIDO</button>
+                        </form>
                     </div>
                   </div>
                 </div>     

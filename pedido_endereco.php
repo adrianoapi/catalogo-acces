@@ -105,7 +105,7 @@
                             <div class="form-group">
                               <div class="form-row">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-success pull-right"> Continuar <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></button>
+                                    <button type="submit" class="btn btn-success pull-right"> Continuar</button>
                                     <a href="carrinho.php" class="btn btn-default pull-left"><span class="glyphicon glyphicon-chevron-left pull-left" aria-hidden="true"></span> Voltar</a>
                                 </div>
                               </div>
