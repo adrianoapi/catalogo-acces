@@ -65,6 +65,7 @@ function registrar_pedido_item($pdo, $eccomerce_controle, array $data)
                     unset($_SESSION['carrinho']);
                     
                     # Redireciona para o extrato
+                    $_SESSION['confirm'] = "Pedido";
                     header("Location: pedido_resumo.php?cod=".$ecommerce_controle);
                     
                 }

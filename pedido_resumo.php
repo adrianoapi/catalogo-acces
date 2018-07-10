@@ -34,6 +34,24 @@
             
             
             <div class="col-lg-8 col-md-offset-2">
+                
+                <?php
+                
+                if(isset($_SESSION['confirm'])){
+
+                    $html  = NULL;
+                    $html .= '<div class="alert alert-success alert-dismissible" role="alert">';
+                    $html .= ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                    $html .= ' <strong>' . $_SESSION['confirm'] . '</strong> com sucesso!';
+                    $html .= '</div>';
+
+                    echo $html;
+
+                    unset($_SESSION['confirm']);
+
+                }
+                
+                ?>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -56,10 +74,10 @@
                             
                             echo null
                                     ."<tr>"
-                                    . "<td>".$item['NOME'         ]."</td>"
+                                    . "<td>".utf8_encode($item['NOME'    ])."</td>"
                                     . "<td>".$item['QUANTIDADE'   ]."</td>"
-                                    . "<td>".number_format($item['VALORUNITARIO'], 2, ',', '.')."</td>"
-                                    . "<td>".number_format($item['VALORTOTAL'   ], 2, ',', '.')."</td>"
+                                    . "<td><span class=\"pull-right\">".number_format($item['VALORUNITARIO'], 2, ',', '.')."</span></td>"
+                                    . "<td><span class=\"pull-right\">".number_format($item['VALORTOTAL'   ], 2, ',', '.')."</span></td>"
                                     . "</tr>";
                         }
                         
@@ -72,6 +90,14 @@
                         </table>
                     </div><!--end/panel-body-->
                 </div><!--end/panel-->
+                
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-12">
+                        <a href="pedido_listagem.php" class="btn btn-primary pull-right"> Voltar para pedidos</a>
+                    </div>
+                  </div>
+                </div>
 
             </div><!--./col-lg-8-->
 
