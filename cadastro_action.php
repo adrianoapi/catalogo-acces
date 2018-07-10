@@ -1,6 +1,7 @@
 <?php
 
 require_once 'includes/connect.php';
+require_once 'includes/functions.php';
 
 /*
  * Checa se o formulário foi preenchido manualmente

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'includes/connect.php';
+require_once 'includes/functions.php';
 require_once 'includes/security.php';
 
 function check_pessoa($pdo, $email, $senha)

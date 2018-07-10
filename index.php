@@ -1,5 +1,6 @@
-<?php require_once 'includes/connect.php'; ?>
-<?php require_once 'includes/topo.php';     ?>
+<?php require_once 'includes/connect.php';   ?>
+<?php require_once 'includes/functions.php'; ?>
+<?php require_once 'includes/topo.php';      ?>
 
 <body>
 

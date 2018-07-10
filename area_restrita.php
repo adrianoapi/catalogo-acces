@@ -1,5 +1,6 @@
-<?php require_once 'includes/connect.php'; ?>
-<?php require_once 'includes/topo.php';     ?>
+<?php require_once 'includes/connect.php';   ?>
+<?php require_once 'includes/functions.php'; ?>
+<?php require_once 'includes/topo.php';      ?>
 
 <body>
 
@@ -13,10 +14,9 @@
 
             <div class="col-md-12">
 
-                
                 <?php
                 
-                error("<h4>Área restrita</h4>Você tentou acessar uma área que requer autenticação!", 8, 2);
+                error("<h4>Área restrita</h4>Você tentou acessar uma área que requer autenticação!<br/><a href=\"login.php\">Clique aqui</a> para autenticar-se.", 8, 2);
                 
                 ?>
 

@@ -1,6 +1,7 @@
 <?php 
 
 require_once '../includes/connect.php';
+require_once '../includes/functions.php';
 
 /**
  * Negativar todas as ofertas do produto
