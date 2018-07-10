@@ -6,9 +6,13 @@ function check_pessoa($pdo, $email, $senha)
 {
     try{
         
-        $sql = " SELECT * FROM PESSOA AS PE".
-               " INNER JOIN ON".
-               "";
+        $sql = " SELECT TOP 1 * FROM PESSOA AS P      " .
+               " INNER JOIN PESSOA_MEIOCONTATO AS PM ON ( PM.PESSOA_CONTROLE = P.PESSOA_CONTROLE AND PM.TIPOMEIOCONTATO_CONTROLE = 2 AND PM.STATUS = 1 ) " .
+               " WHERE P.SENHA = '{$senha}' AND P.STATUS = 1 AND  PM.VALOR = '{$email}' ";
+        if($pdo->query($sql)){
+            $qry = $pdo->query($sql);
+            return $qry->fetch();
+        }
         
     } catch( PDOException $Exception){
         
@@ -25,7 +29,13 @@ if(isset($_POST['action'])){
         $email = addslashes($_POST['email']);
         $senha = addslashes($_POST['senha']);
 
-        print_r(check_pessoa($pdo, $email, $senha));
+        $rst = check_pessoa($pdo, $email, $senha);
+        
+        if(is_array($rst)){
+            print_r($rst);
+        }else{
+            echo "falhou";
+        }
 
     }
     

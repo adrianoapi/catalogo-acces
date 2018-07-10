@@ -1,5 +1,5 @@
 <?php require_once 'includes/connect.php'; ?>
-<?php require_once 'includes/topo.php';     ?>
+<?php require_once 'includes/topo.php';    ?>
 
 <?php
 
@@ -221,8 +221,8 @@ if(isset($_GET['action'])){
         
         var send = $.post("login_action.php", $(this).serialize(), function(data){
             
-            //return
-            
+            console.log(data);
+
         }).done(function(){
            //alert('done: success'); 
         }).fail(function(){
