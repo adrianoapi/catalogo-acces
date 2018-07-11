@@ -6,6 +6,26 @@ require_once '../includes/functions.php';
 
 if(isset($_REQUEST['action'])){
     
+    if($_REQUEST['action'] == "informacao"){
+        
+        if(is_array($_POST['grupo'])){
+            
+            foreach ($_POST['grupo'] as $key => $value):
+                
+                $sql =  " UPDATE PESSOA_MEIOCONTATO SET ".
+                        " VALOR = '{$value}' ".
+                        " WHERE PESSOA_MEIOCONTATO_CONTROLE = {$key}";
+                $pdo->exec($sql);
+                
+            endforeach;
+            
+        }
+        
+        $_SESSION['confirm'] = "Alterado";
+        header("Location: pessoa.php");
+        
+    }
+    
     if($_REQUEST['action'] == "endereco"){
         
         $controle          = $_POST['controle'   ];
