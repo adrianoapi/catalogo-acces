@@ -183,6 +183,9 @@ if(isset($_GET['action'])){
                             <div class="modal-body">
                                 <div class="row">
                                 <div class="col-lg-8 col-md-offset-2">
+                                    <div class="alert alert-danger" role="alert" id="msg-erro" style="display:none;">
+                                        <strong>Erro</strong> <br/> Os dados informados estão incorretos!
+                                    </div>
                                     <form id="form-login" method="POST" onsubmit="return false">
                                         <input type="hidden" name="action" value="autenticar">
                                         <div class="form-group">
@@ -226,14 +229,15 @@ if(isset($_GET['action'])){
     
     $("#form-login").submit(function(event){
         
+        document.getElementById("msg-erro").style.display = "none";
         event.preventDefault();
         
         var send = $.post("login_action.php", $(this).serialize(), function(data){
             
-            if(data){
+            if(data > 0){
                 window.location = 'pedido_endereco.php';
             }else{
-                alert('Erro');
+                document.getElementById("msg-erro").style.display = "block";
             }
 
         }).done(function(){

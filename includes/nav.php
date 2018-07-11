@@ -15,11 +15,23 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="./cadastro.php"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Cadastre-se</a>
-                    </li>
-                    <li>
                         <a href="./carrinho.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>&nbsp;Carrinho</a>
                     </li>
+                    <?php if(isset($_SESSION['AUTH'])){ ?>
+                        <li>
+                            <a href="./pedido_listagem.php">Histórico de Pedidos</a>
+                        </li>
+                        <li>
+                            <a href="./cadastro_sair.php">Sair</a>
+                        </li>
+                    <?php }else{ ?>
+                    <li>
+                        <a href="./cadastro.php">Cadastre-se</a>
+                    </li>
+                    <li>
+                        <a href="./login.php">Autentique-se</a>
+                    </li>
+                    <?php } ?>
                     <li>
                         <a href="./admin">Admin</a>
                     </li>

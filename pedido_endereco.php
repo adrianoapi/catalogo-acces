@@ -4,6 +4,20 @@
 <?php require_once 'includes/security.php';  ?>
 <?php 
 
+    # obs.: Criar um inclide security_carrinho.php
+
+    # Checa se existe o carrinho
+    if(isset($_SESSION['carrinho'])){
+        
+        # Checa se tem intes no carrinho
+        if(count($_SESSION['carrinho']) < 1){
+            header('Location: carrinho.php');
+        }
+        
+    }else{
+        header('Location: carrinho.php');
+    }
+
     if(isset($_POST['action'])){
         
         if($_POST['action'] == "update"){
