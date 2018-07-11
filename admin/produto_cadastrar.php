@@ -127,9 +127,9 @@ $page = "produto.php";
 
                             <div class="form-group">
                               <div class="form-row">
-                                <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary">Salvar</button>
-                                  <a class="btn btn-default" href="../admin/produto.php">Cancelar</a>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-success pull-right">Salvar</button>
+                                  <a class="btn btn-default pull-left" href="../admin/produto.php">Cancelar</a>
                                 </div>
                               </div>
                             </div>
