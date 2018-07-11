@@ -183,7 +183,7 @@ if($_REQUEST != ""){
                     
                }
                
-               $_SESSION['confirm'] = "Alterado";
+               $_SESSION['confirm'] = "Removido";
                header("Location: produto.php");
                
         } catch (PDOException $Exceptio) {

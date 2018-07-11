@@ -11,7 +11,7 @@
         
         # Checa se tem intes no carrinho
         if(count($_SESSION['carrinho']) < 1){
-            $_SESSION['confirm'] = "Carrinho";
+            $_SESSION['confirm'] = "Atenção";
             header('Location: carrinho.php');
         }
         

@@ -20,7 +20,7 @@ $page = "pessoa.php";
             <div class="col-md-9">
 
                 <div class="panel panel-default">
-                  <div class="panel-heading">Pessoas</div>
+                  <div class="panel-heading">Pessoas excluídas</div>
                   <div class="panel-body">
                     
                       <?php
@@ -67,7 +67,7 @@ $page = "pessoa.php";
                           <?php
 
                             $qnt = 10;
-                            $sql = "SELECT COUNT(*) AS total FROM PESSOA WHERE STATUS = 1 $where_and";
+                            $sql = "SELECT COUNT(*) AS total FROM PESSOA WHERE STATUS = 0 $where_and";
                             $result = $pdo->query($sql);
                             $total_registros = $result->fetch();
                             $total_registros = $total_registros['total'];
@@ -79,15 +79,15 @@ $page = "pessoa.php";
 
                             $sql = "SELECT PESSOA.*
                             FROM PESSOA
-                            WHERE STATUS = 1 AND PESSOA.PESSOA_CONTROLE In 
+                            WHERE STATUS = 0 AND PESSOA.PESSOA_CONTROLE In 
                                   (
                                     SELECT TOP $qnt A.PESSOA_CONTROLE
                                     FROM [
                                            SELECT TOP ".($qnt+$inicio) ." PESSOA.NOME, PESSOA.PESSOA_CONTROLE
                                            FROM PESSOA
-                                           WHERE STATUS = 1 $where_and ORDER BY PESSOA.NOME, PESSOA.PESSOA_CONTROLE
+                                           WHERE STATUS = 0 $where_and ORDER BY PESSOA.NOME, PESSOA.PESSOA_CONTROLE
                                          ]. AS A
-                                    WHERE STATUS = 1 $where_and ORDER BY A.NOME DESC, A.PESSOA_CONTROLE
+                                    WHERE STATUS = 0 $where_and ORDER BY A.NOME DESC, A.PESSOA_CONTROLE
                                   )
                             $where_and ORDER BY PESSOA.NOME, PESSOA.PESSOA_CONTROLE";
                             $result = $pdo->query($sql);
@@ -104,17 +104,7 @@ $page = "pessoa.php";
                                     <td>
                                         <strong><?php echo utf8_encode($row['NOME']); ?></strong>
                                     <td>
-                                        <div class="dropdown pull-right">
-                                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                            <span class="caret"></span>
-                                          </button>
-                                          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="<?php echo './pessoa_alterar.php?cod='.$row['PESSOA_CONTROLE']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar</a></li>
-                                            <li><a href="<?php echo './pessoa_endereco.php?cod='.$row['PESSOA_CONTROLE']; ?>"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Endereço</a></li>
-                                            <li><a href="./pessoa_action.php?controle=<?php echo $row['PESSOA_CONTROLE']; ?>&action=excluir" onclick="if (confirm('Confirmar exclusão do item: \n\n <?php echo utf8_encode($row['NOME']); ?> \n' )) { window.location.href = this.href } return false;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir</a></li>
-                                          </ul>
-                                        </div>
+                                        <a href="./pessoa_action.php?controle=<?php echo $controle; ?>&action=restaurar" class="btn btn-default pull-right" onclick="if (confirm('Confirmar restauração do item: \n\n <?php echo utf8_encode($row['NOME']); ?> \n' )) { window.location.href = this.href } return false;"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Restaurar</a>
                                     </td>
                                 </tr>
                                 <?php
