@@ -27,22 +27,21 @@ if(isset($_POST['action'])){
      */
     if($_POST['action'] == "autenticar"){
         
-        $email = addslashes($_POST['email']);
-        $senha = addslashes($_POST['senha']);
+        $status = 0;
+        $email  = addslashes($_POST['email']);
+        $senha  = addslashes($_POST['senha']);
 
         $rst = check_pessoa($pdo, $email, $senha);
         
         if(is_array($rst)){
             
             if(registra_login($rst)){
-                echo 1;
+                $status = 1;
             }
             
-        }else{
-            
-            echo 0;
-            
         }
+        
+        echo $status;
 
     }
     

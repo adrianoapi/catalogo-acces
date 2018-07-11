@@ -107,6 +107,22 @@ if(isset($_GET['action'])){
             <?php require_once 'includes/categoria.php';     ?>
 
         <div class="col-lg-9">
+            
+            <?php
+            if(isset($_SESSION['confirm'])){
+
+                $html  = NULL;
+                $html .= '<div class="alert alert-warning alert-dismissible" role="alert">';
+                $html .= ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                $html .= ' <strong>' . $_SESSION['confirm'] . '</strong> <br/> Seu carrinho está vazio!';
+                $html .= '</div>';
+
+                echo $html;
+
+                unset($_SESSION['confirm']);
+
+            }
+            ?>
                 
             <div class="panel panel-default">
                 <div class="panel-heading">
