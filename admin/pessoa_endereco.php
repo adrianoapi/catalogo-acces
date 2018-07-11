@@ -63,8 +63,9 @@ $rst_end = $qry_end->fetch();
                         ?>
 
                         
-                        <form class="form-horizontal form-bordered" method="POST" action="pedido_endereco.php" onsubmit="return validaconfirmacao.phpcao()">
-                            <input type="hidden" name="action" value="update">
+                      <form class="form-horizontal form-bordered" method="POST" action="pessoa_action.php" onsubmit="return validaconfirmacao.phpcao()">
+                            <input type="hidden" name="action" value="endereco">
+                            <input type="hidden" name="controle" value="<?php echo $rst_end['PESSOA_ENDERECO_CONTROLE'];?>">
                             <div class="form-group">
                               <div class="form-row">
                                 <div class="col-md-2">
@@ -81,7 +82,7 @@ $rst_end = $qry_end->fetch();
                                 </div>
                                 <div class="col-md-2">
                                   <label for="exampleInputName">Complemento</label>
-                                  <input class="form-control" id="complemento" name="complemento" value="<?php echo $rst_end['COMPLEMENTO'];?>" type="text" value="" aria-describedby="nameHelp" placeholder="nome" required>
+                                  <input class="form-control" id="complemento" name="complemento" value="<?php echo $rst_end['COMPLEMENTO'];?>" type="text" value="" aria-describedby="nameHelp" placeholder="comp">
                                 </div>
                               </div>
                             </div>
@@ -126,6 +127,42 @@ $rst_end = $qry_end->fetch();
     
     <!-- /.container -->
     <?php require_once 'includes/fim.php';     ?>
+    
+    <script>
+        
+        /**
+         * Autocompleta os campos de endereço
+         */
+        $('#cep').blur(function(){
+            
+            var cep = document.getElementById('cep').value;
+                cep = cep.replace(/[^\d]\+/g,'');
+                
+            $.getJSON("http://cep.republicavirtual.com.br/web_cep.php?cep=" + cep + "&formato=json", function(data){
+                
+                if(data['resultado']){
+                    
+                    document.getElementById("logradouro" ).value = data['logradouro'];
+                    document.getElementById("bairro"     ).value = data['bairro'    ];
+                    document.getElementById("municipio"  ).value = data['cidade'    ];
+                    document.getElementById("uf"         ).value = data['uf'        ];
+                    document.getElementById("numero"     ).value = '';
+                    document.getElementById("complemento").value = '';
+                    document.getElementById("numero"     ).focus();
+                    
+                }
+                
+            });
+            
+        });
+        
+        function limitarCaracteres(objeto, limite){
+            if (objeto.value.length > limite) {
+                objeto.value = objeto.value.substring(0, limite);
+            }
+        }
+        
+    </script>
     
 </body>
 

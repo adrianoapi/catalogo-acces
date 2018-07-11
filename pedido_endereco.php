@@ -145,6 +145,42 @@
     <!-- /.container -->
     <?php require_once 'includes/fim.php';     ?>
     
+    <script>
+        
+        /**
+         * Autocompleta os campos de endereço
+         */
+        $('#cep').blur(function(){
+            
+            var cep = document.getElementById('cep').value;
+                cep = cep.replace(/[^\d]\+/g,'');
+                
+            $.getJSON("http://cep.republicavirtual.com.br/web_cep.php?cep=" + cep + "&formato=json", function(data){
+                
+                if(data['resultado']){
+                    
+                    document.getElementById("logradouro" ).value = data['logradouro'];
+                    document.getElementById("bairro"     ).value = data['bairro'    ];
+                    document.getElementById("municipio"  ).value = data['cidade'    ];
+                    document.getElementById("uf"         ).value = data['uf'        ];
+                    document.getElementById("numero"     ).value = '';
+                    document.getElementById("complemento").value = '';
+                    document.getElementById("numero"     ).focus();
+                    
+                }
+                
+            });
+            
+        });
+        
+        function limitarCaracteres(objeto, limite){
+            if (objeto.value.length > limite) {
+                objeto.value = objeto.value.substring(0, limite);
+            }
+        }
+        
+    </script>
+    
 </body>
 
 </html>

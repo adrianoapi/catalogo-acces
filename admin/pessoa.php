@@ -111,7 +111,7 @@ $page = "pessoa.php";
                                           </button>
                                           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                             <li><a href="<?php echo './pessoa_alterar.php?cod='.$row['PESSOA_CONTROLE']; ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar</a></li>
-                                            <li><a href="<?php echo './pessoa_endereco.php?cod='.$row['PESSOA_CONTROLE']; ?>"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Endereço</a></li>
+                                            <li><a href="<?php echo './pessoa_endereco.php?cod='.$row['PESSOA_CONTROLE']; ?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Endereço</a></li>
                                             <li><a href="./pessoa_action.php?controle=<?php echo $row['PESSOA_CONTROLE']; ?>&action=excluir" onclick="if (confirm('Confirmar exclusão do item: \n\n <?php echo utf8_encode($row['NOME']); ?> \n' )) { window.location.href = this.href } return false;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir</a></li>
                                           </ul>
                                         </div>

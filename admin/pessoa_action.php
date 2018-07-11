@@ -6,6 +6,40 @@ require_once '../includes/functions.php';
 
 if(isset($_REQUEST['action'])){
     
+    if($_REQUEST['action'] == "endereco"){
+        
+        $controle          = $_POST['controle'   ];
+        $cep               = $_POST['cep'        ];
+        $logradouro        = $_POST['logradouro' ];
+        $numero            = $_POST['numero'     ];
+        $complemento       = $_POST['complemento'];
+        $bairro            = $_POST['bairro'     ];
+        $municipio         = $_POST['municipio'  ];
+        $uf                = $_POST['uf'         ];
+
+        # Atualiza os daso do endereço
+        try{
+
+            $sql = " UPDATE PESSOA_ENDERECO SET " .
+                   " CEP         = '{$cep}'," .
+                   " LOGRADOURO  = '{$logradouro}'," .
+                   " NUMERO      = '{$numero}'," .
+                   " COMPLEMENTO = '{$complemento}'," .
+                   " BAIRRO      = '{$bairro}'," .
+                   " MUNICIPIO   = '{$municipio}'," .
+                   " UF          = '{$uf}'" .
+                   " WHERE PESSOA_ENDERECO_CONTROLE = {$controle}";
+            if($pdo->exec($sql)){
+               $_SESSION['confirm'] = "Endereço alterado";
+               header("Location: pessoa.php");
+            }
+
+        } catch (Exception $Exception) {
+            throw new MyDatabaseException($Exception->getMessage(), (int)$Exception->getCode());
+        }
+        
+    }
+    
     if($_REQUEST['action'] == "excluir"){
         
         $controle = $_GET['controle'];
