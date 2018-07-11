@@ -102,7 +102,7 @@ $page = "pedido.php";
                                 <td><?php echo utf8_encode($row['NOME']); ?></td>
                                 <td><?php echo datetime2Br($row['EMISSAO']); ?></td>
                                 <td><span class="pull-right"><?php echo number_format($row['VALORNF'], 2, ',', '.'); ?></span></td>
-                                <td><span class="pull-right"><a href="#" class="btn btn-default">+Detalhe</a></span></td>
+                                <td><span class="pull-right"><a href="pedido_resumo.php?cod=<?php echo $controle; ?>" class="btn btn-default">+Detalhe</a></span></td>
                             </tr>
                             <?php
                             }
