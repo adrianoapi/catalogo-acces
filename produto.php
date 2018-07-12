@@ -27,6 +27,14 @@
     }else{
         echo utf8_encode("Erro: Referência do produto não foi encontrada!");
     }
+    
+    function dif_hora($datatime2){
+        # Padroniza e compara
+        $datatime1 = date('Y-m-d H:i:s');
+        $datatime1 = new DateTime($datatime1);
+        $datatime2 = new DateTime($datatime2);
+        return $datatime1 >= $datatime2 ? true : false;
+    }
 ?>
 <body>
 
@@ -64,11 +72,21 @@
                                         if($pre_qry){
                                             echo '<ul class="list-group">';
                                               while($val = $pre_qry->fetch()){
+                                                  
+                                                  // Verifica se tem valor deifinido
                                                   if($val['INICIO'] != '' && $val['TERMINO'] != ''){
-                                                      debug($val['INICIO']);
+                                                      
+                                                      if(dif_hora($val['INICIO' ]) == true && dif_hora($val['TERMINO']) != true){
+                                                          
+                                                        $_SESSION['oferta'][$val['PRODUTOPRECO_CONTROLE']] = $val['PRECO'];
+                                                        echo '<li class="list-group-item"><label><input type="radio" name="oferta" value="'.$val['PRODUTOPRECO_CONTROLE'].'" checked>R$'.number_format($val['PRECO'],2,',','.').'</label></li>';
+                                              
+                                                      }
+                                                      
                                                   }
-                                                  $_SESSION['oferta'][$val['PRODUTOPRECO_CONTROLE']] = $val['PRECO'];
-                                                  echo '<li class="list-group-item"><label><input type="radio" name="oferta" value="'.$val['PRODUTOPRECO_CONTROLE'].'" checked>R$'.number_format($val['PRECO'],2,',','.').'</label></li>';
+                                                  
+                                                  
+                                                  
                                               }
                                             echo '</ul>';
 

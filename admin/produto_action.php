@@ -20,8 +20,8 @@ function alterar_produto_preco($pdo, $controle, $data = array())
     $pdo->exec("UPDATE PRODUTOPRECO SET STATUS = 0 WHERE PRODUTO_CONTROLE = {$controle}");
 
     foreach ($data as $key => $value):
-        $dt_inicio = strlen($value['dt_inicio']) > 4 ? datetime2SQL($value['dt_inicio']) : NULL;
-        $dt_fim    = strlen($value['dt_fim'   ]) > 4 ? datetime2SQL($value['dt_fim'   ]) : NULL;
+        $dt_inicio = isset($value['dt_inicio']) ? datetime2SQL($value['dt_inicio']) : '';
+        $dt_fim    = isset($value['dt_fim'   ]) ? datetime2SQL($value['dt_fim'   ]) : '';
         # Atualiza a oferta passada no formulário
         if(!$pdo->exec("UPDATE PRODUTOPRECO SET ".
                " PRECO   = '{$value['preco']}',".
