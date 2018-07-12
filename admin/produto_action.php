@@ -20,13 +20,17 @@ function alterar_produto_preco($pdo, $controle, $data = array())
     $pdo->exec("UPDATE PRODUTOPRECO SET STATUS = 0 WHERE PRODUTO_CONTROLE = {$controle}");
 
     foreach ($data as $key => $value):
+        $dt_inicio = strlen($value['dt_inicio']) > 4 ? datetime2SQL($value['dt_inicio']) : NULL;
+        $dt_fim    = strlen($value['dt_fim'   ]) > 4 ? datetime2SQL($value['dt_fim'   ]) : NULL;
         # Atualiza a oferta passada no formulário
         if(!$pdo->exec("UPDATE PRODUTOPRECO SET ".
-               " PRECO  = '{$value['preco']}',".
-               " STATUS = 1".
+               " PRECO   = '{$value['preco']}',".
+               " INICIO  = '{$dt_inicio}',".
+               " TERMINO = '{$dt_fim}',".
+               " STATUS  = 1".
                " WHERE PRODUTOPRECO_CONTROLE = {$key} AND PRODUTO_CONTROLE = {$controle}")){
                    # Insere uma nova oferta
-                   $pdo->exec("INSERT INTO PRODUTOPRECO(PRODUTO_CONTROLE, PRECO, STATUS) VALUES({$controle}, '{$value['preco']}', 1)");
+                   $pdo->exec("INSERT INTO PRODUTOPRECO(PRODUTO_CONTROLE, PRECO, INICIO, TERMINO, STATUS) VALUES({$controle}, '{$value['preco']}', '{$dt_inicio}', '{$dt_fim}', 1)");
                }
     endforeach;
     
@@ -156,7 +160,7 @@ if($_REQUEST != ""){
                     
                }
                
-               #alterar_produto_preco($pdo, $controle, $ofertas);
+               alterar_produto_preco($pdo, $controle, $ofertas);
                alterar_produto_grupo($pdo, $controle, $grupo_controle);
                
                $_SESSION['confirm'] = "Alterado";

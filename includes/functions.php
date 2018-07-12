@@ -117,4 +117,11 @@ function datetime2Br($valor)
     return $date[2]."/".$date[1]."/".$date[0]." ".$arr[1];
 }
 
+function datetime2SQL($valor)
+{
+    $arr  = explode(" ", $valor);
+    $date = explode("/", $arr[0]);
+    return $date[2]."-".$date[1]."-".$date[0]." ".$arr[1];
+}
+
 ?>

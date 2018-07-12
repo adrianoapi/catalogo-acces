@@ -204,11 +204,11 @@ $page = "produto.php";
                                       </div>
                                       <div class="col-md-4">
                                           <label for="descricao">INICIO</label>
-                                          <input type="datetime" name="oferta[<?php echo $count; ?>][dt_inicio]" class="form-control" value="" placeholder="__/__/__">
+                                          <input type="datetime" name="oferta[<?php echo $count; ?>][dt_inicio]" value="<?php echo isset($row['INICIO']) ? datetime2Br($row['INICIO']) : NULL; ?>" class="form-control" placeholder="00/00/0000 00:00:00">
                                       </div>
                                       <div class="col-md-4">
                                           <label for="descricao">FIM</label>
-                                          <input type="datetime" name="oferta[<?php echo $count; ?>][dt_fim]" class="form-control" value="" placeholder="__/__/__">
+                                          <input type="datetime" name="oferta[<?php echo $count; ?>][dt_fim]"    value="<?php echo isset($row['TERMINO']) ? datetime2Br($row['TERMINO']) : NULL; ?>" class="form-control" placeholder="00/00/0000 00:00:00">
                                       </div>
                                       <div class="col-md-1">
                                           <label for="descricao"><br></label>
@@ -348,15 +348,15 @@ $page = "produto.php";
             divtest.innerHTML = '<div class="form-row">' +
                     '    <div class="col-md-3">' +
                     '        <label for="descricao">PREÇO</label>' +
-                    '        <input type="number" name="oferta['+ room +'][preco]" class="form-control" value="">' +
+                    '        <input type="number" name="oferta['+ room +'][preco]" class="form-control" value="0">' +
                     '    </div>' +
                     '    <div class="col-md-4">' +
                     '        <label for="descricao">INICIO</label>' +
-                    '        <input type="datetime" name="oferta['+ room +'][dt_inicio]" class="form-control" value="" placeholder="__/__/__">' +
+                    '        <input type="datetime" name="oferta['+ room +'][dt_inicio]" class="form-control" value="00/00/0000 00:00:00" placeholder="__/__/____ __:__:__">' +
                     '    </div>' +
                     '    <div class="col-md-4">' +
                     '        <label for="descricao">FIM</label>' +
-                    '        <input type="datetime" name="oferta['+ room +'][dt_fim]" class="form-control" value="" placeholder="__/__/__">' +
+                    '        <input type="datetime" name="oferta['+ room +'][dt_fim]" class="form-control" value="00/00/0000 00:00:00" placeholder="__/__/____ __:__:__">' +
                     '    </div>' +
                     '    <div class="col-md-1">' +
                     '        <label for="descricao"><br></label>' +

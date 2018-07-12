@@ -64,6 +64,9 @@
                                         if($pre_qry){
                                             echo '<ul class="list-group">';
                                               while($val = $pre_qry->fetch()){
+                                                  if($val['INICIO'] != '' && $val['TERMINO'] != ''){
+                                                      debug($val['INICIO']);
+                                                  }
                                                   $_SESSION['oferta'][$val['PRODUTOPRECO_CONTROLE']] = $val['PRECO'];
                                                   echo '<li class="list-group-item"><label><input type="radio" name="oferta" value="'.$val['PRODUTOPRECO_CONTROLE'].'" checked>R$'.number_format($val['PRECO'],2,',','.').'</label></li>';
                                               }
