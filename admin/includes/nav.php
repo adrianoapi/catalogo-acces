@@ -15,10 +15,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
+                        <a href="login_action.php?action=sair">Sair</a>
                     </li>
                     <li>
                         <a href="../">Loja</a>

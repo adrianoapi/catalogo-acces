@@ -2,6 +2,7 @@
 
 require_once '../includes/connect.php';
 require_once '../includes/functions.php'; 
+require_once 'includes/security.php';
 require_once 'includes/topo.php';   
 
 $sql_prod = "SELECT COUNT(*) FROM PRODUTO   WHERE STATUS = 1";
